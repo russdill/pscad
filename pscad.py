@@ -128,6 +128,26 @@ class back(pscad):
     def set(cls):
         return cls.back
 
+class paste(pscad):
+    current = []
+    def __init__(self, has=True):
+        super(paste, self).__init__()
+        self.should_have = has
+
+    def pre(self):
+        self.current.insert(0, self)
+
+    def fin(self):
+        self.current.remove(self)
+
+    @classmethod
+    def has(cls):
+        return not len(cls.current) or cls.current[0].should_have
+
+class nopaste(paste):
+    def __init__(self):
+        super(nopaste, self).__init__(False)
+
 class multmatrix(pscad):
     def __init__(self, m = None):
         super(multmatrix, self).__init__()
@@ -296,11 +316,15 @@ class pad(union):
             angle = dmath.atan2(m[2][1] - m[0][1], m[2][0] - m[0][0])
         else:
             angle = dmath.atan2(m[3][1] - m[1][1], m[3][0] - m[1][0])
+
         flags = []
         if not rounded:
             flags.append("square")
         if back.set():
             flags.append("onsolder")
+        if not paste.has():
+            flags.append("nopaste")
+
         thickness = min(dim0, dim1) / D(2)
         width = max(dim0, dim1) - thickness * D(2)
         p = []
@@ -313,10 +337,15 @@ class pad(union):
         return ret
 
     def circ_pad(self, name, c, r):
+        flags = []
+        if back.set():
+            flags.append("onsolder")
+        if not paste.has():
+            flags.append("nopaste")
         return """Pad [ %s %s %s %s %s %s %s "%s" "%s" "%s" ]""" % (
             P(c[0]), P(c[1]), P(c[0]), P(c[1]), P(r * D(2)),
             P(self.clearance * D(2)), P((self.mask + r) * D(2)), name, name,
-            "onsolder" if back.set() else "")
+            ",".join(flags))
 
     def render(self, obj, m, meta):
         ret = []
