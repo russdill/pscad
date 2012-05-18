@@ -390,11 +390,14 @@ class pin(union):
             if self.square:     
                 sq = square((r + self.annulus) * D(2), center = True)
                 un = union(name)
+                np = nopaste()
                 un.pre()
+                np.pre()
                 ret += pad(None, self.clearance, self.mask).render(sq, m, meta)
                 back.pre()
                 ret += pad(None, self.clearance, self.mask).render(sq, m, meta)
                 back.fin()
+                np.fin()
                 un.fin()
         return ret
 
