@@ -87,13 +87,17 @@ class union(pscad):
         super(union, self).__init__()
         self.name = name
         self.cached = None
+        self.added = False
         
     def pre(self):
         if self.name is not None or (len(self.current) and self.current[0].name is not None):
             self.current.insert(0, self)
+            self.added = True
 
     def fin(self):
-        self.current.remove(self)
+        if self.added:
+            self.current.remove(self)
+            self.added = False
 
     def next_name(self):
         try:
@@ -101,6 +105,14 @@ class union(pscad):
         except:
             return str(self.name)
  
+    def __deepcopy__(self, arg):
+        name = self.name
+        self.name = None
+        ret = copy.copy(self)
+        self.name = name
+        ret.name = name
+        return ret
+
     @classmethod
     def get_name(cls):
         top = cls.current[0]
@@ -138,7 +150,7 @@ class paste(pscad):
         self.current.insert(0, self)
 
     def fin(self):
-        self.current.remove(self)
+        self.current.pop(0)
 
     @classmethod
     def has(cls):
