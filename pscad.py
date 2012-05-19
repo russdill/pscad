@@ -39,13 +39,13 @@ class pscad(object):
         self.next = None
 
     def __and__(a, b):
-        n = a
+        n = a = copy.deepcopy(a)
         while n.child != None: n = n.child
         n.child = copy.deepcopy(b)
         return a
 
     def __or__(a, b):
-        n = a
+        n = a = copy.deepcopy(a)
         while n.next != None: n = n.next
         n.next = copy.deepcopy(b)
         return a
