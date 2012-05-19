@@ -180,11 +180,13 @@ class scale(multmatrix):
 class mirror(multmatrix):
     def __init__(self, v):
         super(mirror, self).__init__()
-        v = [ D(v[0]), D(v[1]) ]
-        self.m[0,0] = 1 - D(2) * v[0] * v[0]
-        self.m[0,1] = - D(2) * v[0] * v[1]
-        self.m[1,0] = - D(2) * v[0] * v[1]
-        self.m[1,1] = 1 - D(2) * v[1] * v[1]
+        a, b = D(v[0]), -D(v[1])
+        a = a / dmath.hypot(a, b)
+        b = b / dmath.hypot(a, b)
+        self.m[0,0] = 1 - D(2) * a * a
+        self.m[0,1] = - D(2) * a * b
+        self.m[1,0] = - D(2) * a * b
+        self.m[1,1] = 1 - D(2) * b * b
 
 class shape(pscad):
     def __init__(self, v = None):
