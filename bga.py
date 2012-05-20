@@ -16,6 +16,36 @@ import pscad
 from decimal import Decimal as D
 from string import ascii_uppercase
 import itertools
+import re
+
+FF784 = {
+    'name' :        "FF784",
+    'pad_size' :    D("0.45"),
+    'pitch' :       D("1.0"),
+    'n_x' :         28,
+    'n_y' :         28,
+    'courtyard_x' : D("29.0"),
+    'courtyard_y' : D("29.0"),
+    'clearance' :   D("0.15"),
+    'mask' :        D("0.05"),
+    'silk' :        D("0.2"),
+    'no_letter' :   "IOQSXZ"
+}
+
+DDR2_CLP = {
+    'name' :        "DDR2_CLP",
+    'pad_size' :    D("0.33"),
+    'pitch' :       D("0.8"),
+    'n_x' :         9,
+    'n_y' :         22,
+    'courtyard_x' : D("11.5"),
+    'courtyard_y' : D("22.6"),
+    'clearance' :   D("0.15"),
+    'mask' :        D("0.05"),
+    'silk' :        D("0.2"),
+    'no_letter' :   "IOQSYZ",
+    'skip' :        "A?.[4-6]|[BCWX].|A[AB]?[37]|[NRU]1|[PTV]9"
+}
 
 def bga_letters(skip):
     return itertools.ifilterfalse(lambda x: x in skip, ascii_uppercase)
@@ -23,27 +53,31 @@ def bga_letters(skip):
 def bga_dletters(skip):
     return (i[0] + i[1] for i in itertools.product([''] + list(bga_letters(skip)), bga_letters(skip)))
 
-def bga_names(n, skip = 'IOQSXZ'):
+def bga_names(n, skip):
     return (i[0] + str(i[1]) for i in itertools.product(bga_dletters(skip), range(1, n+1)))
 
-def bga(name, pad, pitch, n, courtyard, clearance, mask, silk_w):
+def bga(m):
 
-    row = pscad.row(pscad.circle(pad / D(2)), pitch, n[0], center=True)
+    if 'skip' in m:
+        skip = lambda name: re.match(m['skip'], name)
+    else:
+        skip = None
+
+    row = pscad.row(pscad.circle(m['pad_size'] / D(2)), m['pitch'], m['n_x'], center=True)
     pads = (
-        pscad.pad(bga_names(n[0]), clearance, mask) &
-        pscad.rotate(270) & pscad.row(pscad.rotate(90) & row, pitch, n[1], center=True)
+        pscad.pad(bga_names(m['n_x'], m['no_letter']), m['clearance'], m['mask'], skip=skip) &
+        pscad.rotate(270) & pscad.row(pscad.rotate(90) & row, m['pitch'], m['n_y'], center=True)
     )
 
-    silk = pscad.silk(w=silk_w) & (
-        pscad.square(courtyard, center=True) |
+    silk = pscad.silk(w=m['silk']) & (
+        pscad.square((m['courtyard_x'], m['courtyard_y']), center=True) |
 
-        pscad.translate([-courtyard[0] / D(2), -pitch * (n[1] - 1) / D(2)]) &
-        pscad.left(silk_w * D(2)) & pscad.line([0, pitch * D(2)], center=True)
+        pscad.translate([-m['courtyard_x'] / D(2), -m['pitch'] * (m['n_y'] - 1) / D(2)]) &
+        pscad.left(m['silk'] * D(2)) & pscad.line([0, m['pitch'] * D(2)], center=True)
     )
 
-    pscad.element(pads | silk, name)
+    pscad.element(pads | silk, m['name'])
 
 if __name__ == "__main__":
-    bga("FF784", D("0.45"), D("1.0"), (28, 28), (D("29.0"), D("29.0")), D("0.15"), D("0.05"), D("0.2"))
-
+    bga(DDR2_CLP)
 

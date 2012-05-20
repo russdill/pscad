@@ -16,25 +16,63 @@ import pscad
 import itertools
 from decimal import Decimal as D
 
-def sop(name, pad_size, pad_r, clearance, mask, pitch, n, width, silk_width):
 
-    pad_row = pscad.row(pscad.rounded_square(pad_size, pad_r, center=True), pitch, n / 2, center=True)
+# http://pdfserv.maxim-ic.com/land_patterns/90-0167.PDF
 
-    pads = pscad.pad(itertools.count(1), clearance,  mask) & (
-        pscad.down(width / D(2)) & pad_row |
-        pscad.up(width / D(2)) & pscad.rotate(180) & pad_row
+QSOP16 = {
+    'name': "QSOP-16",
+    'pad_l': D("1.6"),
+    'pad_w': D("0.356"),
+    'width': D("5.309"),
+    'pitch': D("0.635"),
+    'n': 16,
+    'rounding': D("0.05"),
+    'D': D("4.98")
+}
+
+PW_R_PDSO_G16 = {
+    'name': "PW (R-PDSO-G16)",
+    'pad_l': D("1.60"),
+    'pad_w': D("0.35"),
+    'width': D("5.60"),
+    'pitch': D("0.65"),
+    'n': 16,
+    'rounding': D("0.05"),
+    'D': D("5.10")
+}
+
+# http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/PACKAGE_INFORMATION/CD00004814.pdf
+TSSOP20 = {
+    'name': "TSSOP-20",
+    'pad_l': D("1.165"),
+    'pad_w': D("0.36"),
+    'width': D("6.095"),
+    'pitch': D("0.65"),
+    'n': 20,
+    'rounding': D("0.05"),
+    'D': D("6.6")
+}
+
+
+def sop(m, clearance, mask, silk_width):
+
+    pad_row = pscad.row(pscad.rounded_square(
+        (m['pad_w'], m['pad_l']), m['rounding'], center=True), m['pitch'], m['n'] / 2, center=True)
+
+    pads = pscad.pad(itertools.count(1), clearance, mask) & (
+        pscad.down(m['width'] / D(2)) & pad_row |
+        pscad.up(m['width'] / D(2)) & pscad.rotate(180) & pad_row
     )
 
-    length = pitch * (n + 1) / D(2)
     silk = pscad.silk(w=silk_width) & (
-        pscad.square([length, width - pad_size[1] - silk_width * D(4)], center=True) |
-        pscad.left(length / D(2)) & pscad.rotate(270) & pscad.circle(width / D(10), sweep=180)
+        pscad.square([m['D'] + D(2), m['width'] + m['pad_l'] + D(1)], center=True) |
+
+        pscad.down(m['width'] / D(2)) &
+        pscad.left(silk_width + m['pitch'] * m['n'] / 4) &
+        pscad.line([0, m['pad_l']], center=True)
     )
 
-    pscad.element(pads | silk, name)
+    pscad.element(pads | silk, m['name'])
 
 if __name__ == "__main__":
-    sop("TSOP-32",
-        pad_size = [D(1), D(4)], pad_r = D("0.2"),
-        clearance = D("0.2"), mask = D("0.2"),
-        pitch = D(2), n = 32, width = D(20), silk_width = D("0.4"))
+    sop(TSSOP20, clearance = D("0.2"), mask = D("0.2"), silk_width = D("0.2"))
