@@ -83,11 +83,12 @@ class empty(pscad):
 
 class union(pscad):
     current = []
-    def __init__(self, name=None):
+    def __init__(self, name=None, skip=None):
         super(union, self).__init__()
         self.name = name
         self.cached = None
         self.added = False
+        self.skip = skip
         
     def pre(self):
         if self.name is not None or (len(self.current) and self.current[0].name is not None):
@@ -122,6 +123,16 @@ class union(pscad):
             return top.cached
         else:
             return top.next_name()
+
+    def should_skip(self, name):
+        try:
+            return name in self.skip
+        except:
+            try:
+                return self.skip(name)
+            except:
+                pass
+        return False
 
 class back(pscad):
     back = False
@@ -303,8 +314,8 @@ class silk(pscad):
         return ret
 
 class pad(union):
-    def __init__(self, name, clearance, mask):
-        super(pad, self).__init__(name)
+    def __init__(self, name, clearance, mask, skip=None):
+        super(pad, self).__init__(name, skip)
         self.clearance = D(clearance)
         self.mask = D(mask)
 
@@ -366,12 +377,14 @@ class pad(union):
         points = xform(m, obj.points)
         if type(obj) == circle:
             name = self.get_name()
+            if self.should_skip(name): return ret
             dx = points[1][0] - points[0][0]
             dy = points[1][1] - points[0][1]
             r = dmath.hypot(dx, dy)
             ret.append(self.circ_pad(name, points[0], r))
         elif type(obj) == square:
             name = self.get_name()
+            if self.should_skip(name): return ret
             p = []
             for i in range(0, len(obj.paths[0]) - 1):
                 p.append(points[obj.paths[0][i]])
@@ -382,8 +395,8 @@ class pad(union):
         return ret
 
 class pin(union):
-    def __init__(self, name, annulus, clearance, mask, square = False):
-        super(pin, self).__init__(name)
+    def __init__(self, name, annulus, clearance, mask, square=False, skip=None):
+        super(pin, self).__init__(name, skip)
         self.annulus = D(annulus)
         self.clearance = D(clearance)
         self.mask = D(mask)
@@ -394,6 +407,7 @@ class pin(union):
         if type(obj) == circle:
             points = xform(m, obj.points)
             name = self.get_name()
+            if self.should_skip(name): return ret
             dx = points[1][0] - points[0][0]
             dy = points[1][1] - points[0][1]
             r = dmath.hypot(dx, dy)
