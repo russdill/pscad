@@ -1,0 +1,5 @@
+include sot23.pscad
+
+name	SOT23-6
+n	6
+body_x	3.0

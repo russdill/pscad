@@ -1,0 +1,4 @@
+module pcie
+
+name PCIe-x1
+n 6

@@ -1,4 +1,4 @@
-# module res_lvk
+# module kk100
 #
 # Copyright (C) 2012 Russ Dill <Russ.Dill@asu.edu>
 #
@@ -13,35 +13,45 @@
 # Lesser General Public License for more details.
 
 import pscad
-from decimal import Decimal as D
 import itertools
+from decimal import Decimal as D
 import patterns
 
-# http://www.ohmite.com/cat/res_lvk.pdf
+# http://www.molex.com/pdm_docs/sd/022232031_sd.pdf
 
 defaults = {
-    'round_off' :   "0.2",
-    'grid' :        "0.1",
-    'placement' :   "0.15",
     'clearance' :   "0.15",
     'mask' :        "0.05",
-    'silk' :        "0.2"
+    'silk' :        "0.20",
+    'drill_d' :     "1.02",
+    'annulus' :     "0.40",
+    'pitch' :       "2.54",
+    'body_y' :      "6.35",
+    'placement' :   "0.25",
+    'grid' :        "0.1"
 }
 
 def part(m):
     m = pscad.wrapper(defaults.items() + m.items())
 
-    row = pscad.row(pscad.rounded_square([m.l, m.w], m.round_off, center=True), m.a + m.l, 2, center=True)
-    all = pscad.pad(itertools.count(1), m.clearance, m.mask) + (
-        pscad.rotate(270) +
-        pscad.row(pscad.rotate(90) + row, m.b + m.w, 2, center=True)
+    row = pscad.row(pscad.donut(m.drill_d / D(2), m.drill_d / D(2) + m.annulus),
+        m.pitch, m.n, center=True)
+
+    all = (
+        pscad.pin(itertools.count(1), m.clearance, m.mask) +
+        row,
+
+        pscad.silk(m.silk) +
+        pscad.square((m.pitch * m.n, m.body_y), center=True)
     )
 
-    courtyard = pscad.expand_to_grid(pscad.bound(all), m.placement, m.grid)
-    courtyard_sz = (courtyard[1][0] - courtyard[0][0], courtyard[1][1] - courtyard[0][1])
     silk = pscad.silk(m.silk) + (
-        pscad.translate(courtyard[0]) +
-        patterns.brackets(courtyard_sz, m.l)
+        patterns.placement_courtyard(all, m.placement, m.grid, 1),
+        
+        pscad.up(m.body_y / D(2)) +
+        pscad.left(m.pitch) +
+        pscad.square((m.pitch * D(2), m.body_y / D(4)))
     )
 
     return all, silk
+

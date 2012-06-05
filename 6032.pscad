@@ -1,0 +1,8 @@
+module chip_component
+
+name		EIA6032
+pad_w		2.30
+pad_l		2.25
+pitch		5.00
+round_off	0.25
+body_y		3.20

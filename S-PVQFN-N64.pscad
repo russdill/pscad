@@ -1,0 +1,18 @@
+module mlp
+
+name		RGC(S_PVQFN_N64)
+pad_w		0.28
+pad_l		0.85
+pitch		0.50
+n		64
+width		8.95
+quad		True
+thermal_x	4.25
+thermal_y	4.25
+indent		0.1
+body_x		9.15
+body_y		9.15
+paste_fraction	0.70
+paste_max	2.0
+pad_paste_fraction 0.80
+

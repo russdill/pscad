@@ -1,0 +1,4 @@
+module pcie
+
+name PCIe-x4
+n 20

@@ -1,0 +1,10 @@
+module bga
+
+name		ONFI_100
+pad_size	0.40
+pitch		1.0
+n_x		10
+n_y		17
+body_x		14
+body_y		18
+skip		[CR].*|[ABTU][3-8]|[D-P]1|[BT][29]

@@ -1,0 +1,17 @@
+module mlp
+
+name		MLP16
+pad_w		0.42
+pad_l		1.00
+pitch		0.65
+n		16
+width		3.70
+quad		True
+thermal_x	2.30
+thermal_y	2.30
+indent		0.20
+body_x		4.00
+body_y		4.00
+paste_fraction	0.60
+paste_max	1.5
+

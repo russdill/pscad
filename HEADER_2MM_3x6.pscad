@@ -1,0 +1,5 @@
+include header_2mm.inc
+
+name	HEADER_2MM_3x6
+n_x	3
+n_y	6

@@ -1,0 +1,12 @@
+# http://documents.tycoelectronics.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv+DocNm=1825058+DocType=CD+DocLang=EN
+module sop
+
+name		ADE-SMT
+pad_l		2.16
+pad_w		1.52
+width		8.26
+pitch		2.54
+n		16
+round_off	0.10
+body_x		22.80
+body_y		7.50

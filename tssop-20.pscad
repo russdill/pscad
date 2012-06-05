@@ -1,0 +1,10 @@
+# http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/PACKAGE_INFORMATION/CD00004814.pdf
+module sop
+
+name	TSSOP-20
+pad_l	1.165
+pad_w	0.36
+width	6.095
+pitch	0.65
+n	20
+body_x	6.6

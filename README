@@ -6,7 +6,7 @@ http://pcb.geda-project.org/
 This python library allows PCB footprints to be generated via a syntax that is
 similar to the OpenSCAD syntax. The library does not actually parse input,
 instead the footprint is made up of calls to the library which look similar
-to OpenSCAD calls with the '&' taking the place of contiuation, and the '|'
+to OpenSCAD calls with the '+' taking the place of contiuation, and the ','
 taking the place of ';'. For instance:
 
 OpenSCAD:
@@ -17,16 +17,17 @@ translate([5, 3, 0])
 circle(1);
 
 pscad:
-scale(5) &
-square([1, 4]) |
+scale(5) +
+square([1, 4]),
 
-translate([5, 3]) &
+translate([5, 3]) +
 circle(1)
 
 At the base of pscad is the ability to build simply shapes and apply
 affine transformation matrixes to them. The supported shapes are:
 
 circle(r, [sweep])
+donut(r1, r2)
 square(v, [center], [rounded])
 line(v, [center])
 point()
@@ -44,15 +45,16 @@ The points can then be assigned various object types:
 
 silk(w)
 pad(name, clearance, mask)
-pin(name, annulus, clearance, mask)
+pin(name, clearance, mask)
 bore(clearance, mask)
 mark()
 text()
 
 The assignment will be carried out on every applicable child object type
 similarly to the OpenSCAD 'color' command. 'pad' only works with 'square' and
-'circle', and 'pin' and 'bore' only work with 'circle'. There is also 'back'
-which puts pads on the opposite side of the board.
+'circle', 'bore' only works with 'circle', and 'donut' only works with 'pin'.
+There is also 'back' which puts pads on the opposite side of the board and a
+'nopaste' that keeps the paste stencil closed.
 
 The 'name' parameter to 'pad' and 'pin' can be a simple string or an iterable.
 Each time another pad is placed, 'next()' is called on the iterable. To allow
@@ -68,9 +70,12 @@ The helper 'up', 'down', 'left', 'right' are wrappers to transform.
 'row(obj, pitch, n, [center])' repeats 'obj' 'n' times with a spacing of 'pitch'
 in the positive x direction.
 
+The pscad.py library can be executed as a script in order to load a '.pscad'
+component for processing. Usage will be shown in the example below
+
 Example BGA component:
 
-#!/usr/bin/env python
+# module bga
 #
 # Copyright (C) 2012 Russ Dill <Russ.Dill@asu.edu>
 #
@@ -88,6 +93,18 @@ import pscad
 from decimal import Decimal as D
 from string import ascii_uppercase
 import itertools
+import re
+import patterns
+
+defaults = {
+    'clearance' :   "0.15",
+    'mask' :        "0.05",
+    'silk' :        "0.2",
+    'no_letter' :   "IOQSYZ",
+    'placement' :   "1",
+    'grid' :        "0.1",
+    'invert' :      "False"
+}
 
 def bga_letters(skip):
     return itertools.ifilterfalse(lambda x: x in skip, ascii_uppercase)
@@ -95,26 +112,60 @@ def bga_letters(skip):
 def bga_dletters(skip):
     return (i[0] + i[1] for i in itertools.product([''] + list(bga_letters(skip)), bga_letters(skip)))
 
-def bga_names(n, skip = 'IOQSXZ'):
+def bga_names(n, skip):
     return (i[0] + str(i[1]) for i in itertools.product(bga_dletters(skip), range(1, n+1)))
 
-def bga(name, pad, pitch, n, courtyard, clearance, mask, silk_w):
+def part(m):
+    m = pscad.wrapper(defaults.items() + m.items())
 
-    row = pscad.row(pscad.circle(pad / D(2)), pitch, n[0], center=True)
-    pads = (
-        pscad.pad(bga_names(n[0]), clearance, mask) &
-        pscad.rotate(270) & pscad.row(pscad.rotate(90) & row, pitch, n[1], center=True)
+    if 'skip' in m:
+        skip = lambda name: re.match(m.skip, name)
+    else:
+        skip = None
+
+    row = pscad.row(pscad.circle(m.pad_size / D(2)), m.pitch, m.n_x, center=True)
+    all = (
+        pscad.pad(bga_names(m.n_x, m.no_letter), m.clearance, m.mask, skip=skip) +
+        pscad.rotate(270) + pscad.row(pscad.rotate(90) + row, m.pitch, m.n_y, center=True),
+
+        pscad.silk(m.silk) + pscad.square((m.body_x, m.body_y), center=True)
     )
 
-    silk = pscad.silk(w=silk_w) & (
-        pscad.square(courtyard, center=True) |
+    silk = pscad.silk(m.silk) + (
+        patterns.placement_courtyard(all, m.placement, m.grid, 1),
 
-        pscad.translate([-courtyard[0] / D(2), -pitch * (n[1] - 1) / D(2)]) &
-        pscad.left(silk_w * D(2)) & pscad.line([0, pitch * D(2)], center=True)
+        pscad.translate([-m.body_x / D(2), -m.pitch * (m.n_y - 1) / D(2)]) +
+        pscad.left(m.silk * D(2)) + pscad.line([0, m.pitch * D(2)], center=True)
     )
 
-    pscad.element(pads | silk, name)
+    if m.invert:
+        return pscad.mirror([1, 0]) + pscad.rotate(270) + (all, silk)
 
-if __name__ == "__main__":
-    bga("FF784", D("0.45"), D("1.0"), (28, 28), (D("29.0"), D("29.0")), D("0.15"), D("0.05"), D("0.2"))
+    return all, silk
 
+And a .pscad file to go with it:
+
+module bga
+
+name		FF784
+pad_size	0.45
+pitch		1.0
+n_x		28
+n_y		28
+body_x		29
+body_y		29
+no_letter	IOQSXZ
+
+The module keyboard causes pyscad to import bga.py and then call the 'part'
+method with the data supplied in the .pscad file. If a module contains multiple
+parts, a part keyword can be used to indicate which method should be called.
+
+All units are assumed to be mm, but can be suffixed with the following
+modifiers:
+
+", in, inch, inches
+mil, mils, thou
+nm
+um
+mm
+m

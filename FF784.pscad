@@ -1,0 +1,10 @@
+module bga
+
+name		FF784
+pad_size	0.45
+pitch		1.0
+n_x		28
+n_y		28
+body_x		29
+body_y		29
+no_letter	IOQSXZ

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# module sop
 #
 # Copyright (C) 2012 Russ Dill <Russ.Dill@asu.edu>
 #
@@ -15,64 +15,53 @@
 import pscad
 import itertools
 from decimal import Decimal as D
+import patterns
 
-
-# http://pdfserv.maxim-ic.com/land_patterns/90-0167.PDF
-
-QSOP16 = {
-    'name': "QSOP-16",
-    'pad_l': D("1.6"),
-    'pad_w': D("0.356"),
-    'width': D("5.309"),
-    'pitch': D("0.635"),
-    'n': 16,
-    'rounding': D("0.05"),
-    'D': D("4.98")
+defaults = {
+    'round_off' :   "0.05",
+    'placement' :   "0.25",
+    'grid'      :   "0.1",
+    'clearance' :   "0.15",
+    'mask' :        "0.05",
+    'silk' :        "0.2"
 }
 
-PW_R_PDSO_G16 = {
-    'name': "PW (R-PDSO-G16)",
-    'pad_l': D("1.60"),
-    'pad_w': D("0.35"),
-    'width': D("5.60"),
-    'pitch': D("0.65"),
-    'n': 16,
-    'rounding': D("0.05"),
-    'D': D("5.10")
-}
+def part(m):
+    m = pscad.wrapper(defaults.items() + m.items())
 
-# http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/PACKAGE_INFORMATION/CD00004814.pdf
-TSSOP20 = {
-    'name': "TSSOP-20",
-    'pad_l': D("1.165"),
-    'pad_w': D("0.36"),
-    'width': D("6.095"),
-    'pitch': D("0.65"),
-    'n': 20,
-    'rounding': D("0.05"),
-    'D': D("6.6")
-}
+    try:
+        pin_count = m.n
+        pin_names = itertools.count(1)
+    except:
+        pin_count = len(m.pins.split(','))
+        pin_names = (i for i in m.pins.split(','))
 
-
-def sop(m, clearance, mask, silk_width):
+    try:
+        body_y = m.body_y
+    except:
+        body_y = m.width - m.pad_l - m.silk * D(3)
 
     pad_row = pscad.row(pscad.rounded_square(
-        (m['pad_w'], m['pad_l']), m['rounding'], center=True), m['pitch'], m['n'] / 2, center=True)
+        (m.pad_w, m.pad_l), m.round_off, center=True), m.pitch, pin_count / 2, center=True)
 
-    pads = pscad.pad(itertools.count(1), clearance, mask) & (
-        pscad.down(m['width'] / D(2)) & pad_row |
-        pscad.up(m['width'] / D(2)) & pscad.rotate(180) & pad_row
+    if body_y > m.width - m.pad_l - m.silk * D(2):
+        edge = m.body_x / D(2) - m.pitch * pin_count / 4
+        body = patterns.brackets([m.body_x, body_y], edge, center=True)
+    else:
+        body = pscad.square([m.body_x, body_y], center=True)
+
+    all = pscad.pad(pin_names, m.clearance, m.mask) + (
+        pscad.down(m.width / D(2)) + pad_row,
+        pscad.up(m.width / D(2)) + pscad.rotate(180) + pad_row
+    ), pscad.silk(m.silk) + body
+        
+    silk = pscad.silk(m.silk) + (
+        patterns.placement_courtyard(all, m.placement, m.grid, m.pad_w * D(2)),
+
+        pscad.down(m.width / D(2)) +
+        pscad.left(m.silk + m.pitch * pin_count / 4) +
+        pscad.line([0, m.pad_l * D("0.7")], center=True)
     )
 
-    silk = pscad.silk(w=silk_width) & (
-        pscad.square([m['D'] + D(2), m['width'] + m['pad_l'] + D(1)], center=True) |
+    return all, silk
 
-        pscad.down(m['width'] / D(2)) &
-        pscad.left(silk_width + m['pitch'] * m['n'] / 4) &
-        pscad.line([0, m['pad_l']], center=True)
-    )
-
-    pscad.element(pads | silk, m['name'])
-
-if __name__ == "__main__":
-    sop(TSSOP20, clearance = D("0.2"), mask = D("0.2"), silk_width = D("0.2"))

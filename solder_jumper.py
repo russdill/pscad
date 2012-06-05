@@ -1,4 +1,4 @@
-# module chip_component
+# module solder_jumper
 #
 # Copyright (C) 2012 Russ Dill <Russ.Dill@asu.edu>
 #
@@ -18,45 +18,43 @@ from decimal import Decimal as D
 import patterns
 import dmath
 
+
 defaults = {
-    'round_off' :   "0.2",
-    'grid' :        "0.1",
+    'round_off' :   "0.05",
+    'grid' :        "0.10",
     'placement' :   "0.25",
     'clearance' :   "0.15",
     'mask' :        "0.2",
     'silk' :        "0.2",
-    'polarized' :   "False"
+    'space' :       "5 mil",
+    'pad_w' :       "0.80",
+    'pad_l' :       "0.95"
 }
 
-def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+def mlp_pad(m):
+    return pscad.union() + (
+        pscad.down(m.pad_l / D(2) - m.round_off) +
+        pscad.square((m.pad_w, m.round_off * D(2)), rounded=True, center=True),
 
-    all = pscad.pad(itertools.count(1), m.clearance, m.mask) + (
-        pscad.row(pscad.rounded_square((m.pad_w, m.pad_l), m.round_off, center=True), m.pitch, 2, center=True)
+        pscad.up((m.pad_l - m.pad_w) / D(2)) +
+        pscad.circle(m.pad_w / D(2)) +
+        pscad.left(m.pad_w / D(2)) +
+        pscad.square((m.pad_w, m.pad_l - m.round_off - m.pad_w / D(2)))
     )
 
-    if 'body_y' in m:
-        body_lines = pscad.rotate(90) + pscad.row(pscad.rotate(90) + pscad.line(m.pitch, center=True), m.body_y, 2, center=True)
-    else:
-        body_lines = pscad.empty()
+def closed(m):
+    m = pscad.wrapper(defaults.items() + m.items())
 
-    courtyard = pscad.expand_to_grid(pscad.bound((all, body_lines)), m.placement, m.grid)
-    courtyard_sz = (courtyard[1][0] - courtyard[0][0], courtyard[1][1] - courtyard[0][1])
-
-    if m.polarized:
-        mark = (
-            pscad.right(courtyard[0][0]) +
-            pscad.rotate(90) +
-            pscad.circle(courtyard_sz[1] / D(6), sweep=180)
-        )
-    else:
-        mark = pscad.empty()
+    pad = pscad.left((m.pad_l + m.space) / D(2)) + pscad.rotate(90) + mlp_pad(m)
+    all = pscad.pad(itertools.count(1), m.clearance, m.mask) + (
+        pad, pscad.mirror([1, 0]) + pad
+    )
 
     silk = pscad.silk(m.silk) + (
-        pscad.translate(courtyard[0]) +
-        patterns.brackets(courtyard_sz, m.pad_w),
-        mark,
-        body_lines
+        patterns.placement_courtyard(all, m.placement, m.grid, m.pad_w * D("0.6")),
     )
 
     return all, silk
+
+def open(m):
+    return pscad.nopaste() + closed(m)

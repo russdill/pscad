@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# module ptd08a0x0w
 #
 # Copyright (C) 2012 Russ Dill <Russ.Dill@asu.edu>
 #
@@ -15,80 +15,101 @@
 import pscad
 import itertools
 from decimal import Decimal as D
+import patterns
 
 def I(v):
     return D("25.4") * D(v)
 
-def ptd08a0x0w_pins(m, clearance, mask):
-    pwr_pin = pscad.circle(I("0.055") / D(2))
-    return pscad.pin(itertools.count(1), D("0.5"), clearance, mask) & (
-        pwr_pin |
-        pscad.down(m['A']) & pwr_pin &
-        pscad.right(m['B']) & pwr_pin &
-        pscad.right(m['C']) & pwr_pin
+defaults = {
+    'clearance' :   "0.2",
+    'mask' :        "0.2",
+    'silk' :        "0.2",
+    'placement':    "0.25",
+    'grid' :        "0.1"
+}
+
+M10W_defaults = {
+    'a' :           '0.500"',
+    'b' :           '0.275"',
+    'c' :           '0.350"',
+    'd' :           '0.625"',
+    'e' :           '0.785"',
+    'f' :           '0.660"'
+}
+
+M20W_defaults = {
+    'a' :           '0.625"',
+    'b' :           '0.375"',
+    'c' :           '0.500"',
+    'd' :           '0.875"',
+    'e' :           '1.035"',
+    'f' :           '0.785"'
+}
+
+def ptd08a0x0w_pins(m):
+    pwr_pin = pscad.donut(I("0.055") / D(2), I("0.055") / D(2) + D("0.5"))
+    return pscad.pin(itertools.count(1), m.clearance, m.mask) + (
+        pwr_pin,
+        pscad.down(m.a) + pwr_pin +
+        pscad.right(m.b) + pwr_pin +
+        pscad.right(m.c) + pwr_pin
     )
 
-def common_pins(clearance, mask):
-    sig_pin = pscad.circle(I("0.028") / D(2))
-    return pscad.pin(itertools.count(5), D("0.18"), clearance, mask) & (
-        pscad.down(I("0.350")) &
-        pscad.rotate(90) &
+def common_pins(m):
+    sig_pin = pscad.donut(I("0.028") / D(2), I("0.028") / D(2) + D("0.18"))
+    return pscad.pin(itertools.count(5), m.clearance, m.mask) + (
+        pscad.down(I("0.350")) +
+        pscad.rotate(90) +
         pscad.row(sig_pin, I("0.050"), 8)
     )
 
-M10W = {
-    'name' : "PTD08A010W",
-    'A' : I("0.500"),
-    'B' : I("0.275"),
-    'C' : I("0.350"),
-    'D' : I("0.625"),
-    'E' : I("0.785"),
-    'F' : I("0.660")
-}
-
-M20W = {
-    'name' : "PTD08A020W",
-    'A' : I("0.625"),
-    'B' : I("0.375"),
-    'C' : I("0.500"),
-    'D' : I("0.875"),
-    'E' : I("1.035"),
-    'F' : I("0.785")
-}
-
 def ptd08a0x0w_template(m):
-    clearance = D("0.2")
-    mask = D("0.2")
-    silk_w = D("0.2")
+    all = (
+        ptd08a0x0w_pins(m),
 
-    pins = ptd08a0x0w_pins(m, clearance, mask)
-    pins |= (pscad.right(m['D']) & common_pins(clearance, mask))
-    silk = pscad.silk(silk_w) & (
-        pscad.translate([m['D'] / D(2), m['A'] / D(2)]) &
-        pscad.square([m['E'], m['F']], center=True)
+        pscad.right(m.d) +
+        common_pins(m),
+
+        pscad.silk(m.silk) +
+        pscad.translate([m.d / D(2), m.a / D(2)]) +
+        pscad.square([m.e, m.f], center=True)
     )
-    pscad.element(pins | silk, m['name'])
 
-def ptd08a010w():
-    ptd08a0x0w_template(M10W)
-
-def ptd08a020w():
-    ptd08a0x0w_template(M20W)
-
-def ptd08a0x0w():
-    clearance = D("0.2")
-    mask = D("0.2")
-    silk_w = D("0.2")
-
-    pins = ptd08a0x0w_pins(M20W, clearance, mask)
-    pins |= (pscad.right(M20W['D']) | common_pins(clearance, mask))
-    pins |= (pscad.right(M20W['D'] - M10W['D']) & ptd08a0x0w_pins(M10W, clearance, mask))
-    silk = pscad.silk(silk_w) & (
-        pscad.translate([M20W['D'] / D(2), M20W['A'] / D(2)]) &
-        pscad.square([M20W['E'], M20W['F']], center=True)
+    silk = pscad.silk(m.silk) + (
+        patterns.placement_courtyard(all, m.placement, m.grid, 1),
     )
-    pscad.element(pins | silk, "PTD08A0X0W")
 
+    return all, silk
 
-if __name__ == "__main__":
-    ptd08a010w()
+def ptd08a010w(m):
+    m = pscad.wrapper(defaults.items() + M10W_defaults.items() + m.items())
+    return ptd08a0x0w_template(m)
+
+def ptd08a020w(m):
+    m = pscad.wrapper(defaults.items() + M20W_defaults.items() + m.items())
+    return ptd08a0x0w_template(m)
+
+def ptd08a0x0w(m):
+    m = pscad.wrapper(defaults.items() + m.items())
+    m10w = pscad.wrapper(defaults.items() + M10W_defaults.items() + m.items())
+    m20w = pscad.wrapper(defaults.items() + M20W_defaults.items() + m.items())
+    
+    all = (
+        ptd08a0x0w_pins(m20w),
+
+        pscad.right(m20w.d - m10w.d) +
+        ptd08a0x0w_pins(m10w),
+
+        pscad.right(m20w.d) +
+        common_pins(m),
+
+        pscad.silk(m.silk) +
+        pscad.translate([m20w.d / D(2), m20w.a / D(2)]) +
+        pscad.square([m20w.e, m20w.f], center=True)
+    )
+
+    silk = pscad.silk(m.silk) + (
+        patterns.placement_courtyard(all, m.placement, m.grid, 1),
+    )
+
+    return all, silk

@@ -1,0 +1,9 @@
+module sop
+
+name	SOT23
+pad_l	1.10
+pad_w	0.65
+width	2.60
+pitch	0.95
+body_x	2.94
+pins	1,,2,,3,

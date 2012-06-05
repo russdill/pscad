@@ -1,0 +1,4 @@
+module pcie
+
+name PCIe-x8
+n 37

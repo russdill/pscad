@@ -1,0 +1,14 @@
+# http://www.mouser.com/ProductDetail/Molex/87831-1420/?qs=QtQX4uD3c2VDCL534TqpVg%3d%3d
+module	shrouded-header
+
+name	xilinx_jtag
+drill_d	0.90
+annulus	0.3
+pitch	2.0
+body_x	6.30
+body_y	16.65
+n_x	2
+n_y	7
+thickness 0.9
+key	2.40
+

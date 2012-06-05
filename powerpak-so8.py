@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# module powerpak-so8
 #
 # Copyright (C) 2012 Russ Dill <Russ.Dill@asu.edu>
 #
@@ -15,49 +15,53 @@
 import pscad
 import itertools
 from decimal import Decimal as D
+import patterns
 
-def powerpak(name):
+defaults = {
+    "round_off" :   "0.1",
+    "clearance" :   "0.2",
+    "mask" :        "0.2",
+    "silk" :        "0.2",
+    "placement" :   "0.25",
+    "grid" :        "0.1"
+}
+
+def part(m):
+    m = pscad.wrapper(defaults.items() + m.items())
 
     pitch = D("1.27")
-    round_off = D("0.1")
+    width = D("6.61")
     pad_size0 = [D("0.61"), D("1.27")]
     pad_size1 = [D("0.61"), D("1.02")]
     pad_size2 = [D("1.65"), D("3.81")]
-    width = D("6.61")
-    clearance = D("0.2")
-    mask = D("0.2")
-    silk_w = D("0.2")
-    courtyard = [D("6.26"), D("7.25")]
+    body = [D("5.0"), D("6.25")]
 
-    thermal_pad = pscad.union() & (
-        pscad.rounded_square([pad_size2[0] * D("0.8"), pad_size2[1] * D("0.6")], round_off, center=True) |
-        pscad.nopaste() & pscad.rounded_square(pad_size2, round_off, center=True)
+    thermal_pad = pscad.paste_fraction(pscad.rounded_square(pad_size2, m.round_off, center=True), D("0.5"))
+
+    all = (
+        pscad.pad(itertools.count(1), m.clearance, m.mask) +
+        pscad.down((width - pad_size0[1]) / D(2)) +
+        pscad.row(pscad.rounded_square(pad_size0, m.round_off, center=True), pitch, 4, center=True),
+
+        pscad.pad((i for i in [6, 6, 5, 5]), m.clearance, m.mask) +
+        pscad.up((width - pad_size1[1]) / D(2)) +
+        pscad.row(pscad.rounded_square(pad_size1, m.round_off, center=True), pitch, 4, center=True),
+
+        pscad.pad((i for i in [6, 5]), m.clearance, m.mask) +
+        pscad.down(width / D(2)) +
+        pscad.up(pad_size0[1] + D("0.82") + pad_size2[1] / D(2)) +
+        pscad.row(thermal_pad, D("0.61") + pad_size2[0], 2, center=True),
+
+        pscad.silk(m.silk) + patterns.brackets(body, D("0.2"), center=True)
     )
 
-    pads = (
-        pscad.pad(itertools.count(1), clearance, mask) &
-        pscad.down((width - pad_size0[1]) / D(2)) &
-        pscad.row(pscad.rounded_square(pad_size0, round_off, center=True), pitch, 4, center=True) |
+    silk = pscad.silk(m.silk) + (
+        patterns.placement_courtyard(all, m.placement, m.grid, D("0.5")),
 
-        pscad.pad((i for i in [6, 6, 5, 5]), clearance, mask) &
-        pscad.up((width - pad_size1[1]) / D(2)) &
-        pscad.row(pscad.rounded_square(pad_size1, round_off, center=True), pitch, 4, center=True) |
-
-        pscad.pad((i for i in [6, 5]), clearance, mask) &
-        pscad.down(width / D(2)) &
-        pscad.up(pad_size0[1] + D("0.82") + pad_size2[1] / D(2)) &
-        pscad.row(thermal_pad, D("0.61") + pad_size2[0], 2, center=True)
+        pscad.down(width / D(2) + m.silk) +
+        pscad.left(pitch * D("1.5")) +
+        pscad.line(pad_size0[0], center=True)
     )
 
-    silk = pscad.silk(silk_w) & (
-        pscad.square(courtyard, center=True) |
+    return all, silk
 
-        pscad.down(width / D(2)) &
-        pscad.left(courtyard[0] / D(2) - silk_w * D(3)) &
-        pscad.line([0, -pad_size0[1]])
-    )
-
-    pscad.element(pads | silk, name)
-
-if __name__ == "__main__":
-    powerpak("PowerPAK SO-8")

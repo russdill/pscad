@@ -1,0 +1,4 @@
+module pcie
+
+name PCIe-x16
+n 70

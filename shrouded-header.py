@@ -1,4 +1,4 @@
-# module res_lvk
+# module shrouded-header
 #
 # Copyright (C) 2012 Russ Dill <Russ.Dill@asu.edu>
 #
@@ -13,35 +13,39 @@
 # Lesser General Public License for more details.
 
 import pscad
-from decimal import Decimal as D
 import itertools
+from decimal import Decimal as D
 import patterns
 
-# http://www.ohmite.com/cat/res_lvk.pdf
-
 defaults = {
-    'round_off' :   "0.2",
-    'grid' :        "0.1",
-    'placement' :   "0.15",
     'clearance' :   "0.15",
     'mask' :        "0.05",
-    'silk' :        "0.2"
+    'silk' :        "0.2",
+    'placement' :   "0.25",
+    'grid' :        "0.1"
 }
 
 def part(m):
     m = pscad.wrapper(defaults.items() + m.items())
 
-    row = pscad.row(pscad.rounded_square([m.l, m.w], m.round_off, center=True), m.a + m.l, 2, center=True)
-    all = pscad.pad(itertools.count(1), m.clearance, m.mask) + (
+    row = pscad.row(pscad.donut(m.drill_d / D(2), m.drill_d / D(2) + m.annulus), m.pitch, m.n_x, center=True)
+
+    all = (
+        pscad.pin(itertools.count(1), m.clearance, m.mask) + 
         pscad.rotate(270) +
-        pscad.row(pscad.rotate(90) + row, m.b + m.w, 2, center=True)
+        pscad.row(pscad.rotate(90) + row, m.pitch, m.n_y, center=True),
+
+        pscad.silk(m.silk) + (
+            pscad.square((m.body_x, m.body_y), center=True),
+            pscad.square((m.body_x - m.thickness * D(2), m.body_y - m.thickness * D(2)), center=True),
+
+            pscad.left((m.body_x - m.thickness) / D(2)) +
+            pscad.square((m.thickness, m.key), center=True)
+        )
     )
 
-    courtyard = pscad.expand_to_grid(pscad.bound(all), m.placement, m.grid)
-    courtyard_sz = (courtyard[1][0] - courtyard[0][0], courtyard[1][1] - courtyard[0][1])
     silk = pscad.silk(m.silk) + (
-        pscad.translate(courtyard[0]) +
-        patterns.brackets(courtyard_sz, m.l)
+        patterns.placement_courtyard(all, m.placement, m.grid, D("0.5")),
     )
 
     return all, silk

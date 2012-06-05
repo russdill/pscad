@@ -1,0 +1,6 @@
+module chip_component
+
+name		EIA0603
+pad_w		0.80
+pad_l		0.95
+pitch		1.60

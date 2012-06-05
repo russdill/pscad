@@ -1,0 +1,3 @@
+include 	0805.pscad
+name		EIA0805p
+polarized	True

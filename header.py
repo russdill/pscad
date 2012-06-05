@@ -1,4 +1,4 @@
-# module dip.py
+# module header.py
 #
 # Copyright (C) 2012 Russ Dill <Russ.Dill@asu.edu>
 #
@@ -15,28 +15,25 @@
 import pscad
 import itertools
 from decimal import Decimal as D
+import patterns
 
 defaults = {
-    'clearance' :   "0.2",
-    'mask' :        "0.2",
-    'silk' :        "0.4",
+    'clearance' :   D("0.15"),
+    'mask' :        D("0.05"),
+    'silk' :        D("0.2"),
 }
 
 def part(m):
     m = pscad.wrapper(defaults.items() + m.items())
 
-    pin_row = pscad.row(pscad.donut(m.drill_r, m.drill_r + m.annulus), m.pitch, m.n / 2, center=True)
-
-    pins = pscad.pin(itertools.count(1), m.clearance, m.mask, square=True) + (
-        pscad.down(m.width / D(2)) + pin_row,
-        pscad.up(m.width / D(2)) + pscad.rotate(180) + pin_row
+    row = pscad.row(pscad.donut(m.drill_d / D(2), m.drill_d / D(2) + m.annulus), m.pitch, m.n_x, center=True)
+    all = pscad.pin(itertools.count(1), m.clearance, m.mask) + (
+        pscad.rotate(270) + pscad.row(pscad.rotate(90) + row, m.pitch, m.n_y, center=True)
     )
 
-    length = m.pitch * (m.n + 1) / D(2)
     silk = pscad.silk(m.silk) + (
-        pscad.square([length, m.width - (m.drill_r + m.annulus) * D(2) - m.silk * D(4)], center=True),
-        pscad.left(length / D(2)) + pscad.rotate(270) + pscad.circle(m.width / D(10), sweep=180)
+        patterns.corners((m.n_x * m.pitch, m.n_y * m.pitch), m.pitch / D(4), center=True)
     )
 
-    return pins, silk
+    return all, silk
 

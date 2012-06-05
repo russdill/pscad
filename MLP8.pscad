@@ -1,0 +1,15 @@
+module mlp
+
+name		MLP8
+pad_w		0.65
+pad_l		1.30
+pitch		1.27
+n		8
+width		7.30
+thermal_x	5.00
+thermal_y	5.36
+indent		0.10
+body_x		6.00
+body_y		8.00
+paste_fraction	0.60
+paste_max	1.5

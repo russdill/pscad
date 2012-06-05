@@ -1,0 +1,9 @@
+module dip
+
+name DIP-32
+drill_r 0.5
+annulus 0.5
+pitch 2.54
+width 20
+n 32
+

@@ -1,0 +1,6 @@
+module chip_component
+
+name		EIA1206
+pad_w		1.60
+pad_l		1.80
+pitch		2.80

@@ -1,0 +1,6 @@
+module chip_component
+
+name		EIA0805
+pad_w		1.30
+pad_l		1.50
+pitch		1.90

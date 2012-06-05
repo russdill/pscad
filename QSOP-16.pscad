@@ -1,0 +1,10 @@
+# http://pdfserv.maxim-ic.com/land_patterns/90-0167.PDF
+module sop
+
+name	QSOP-16
+pad_l	1.60
+pad_w	0.356
+width	5.309
+pitch	0.635
+n	16
+body_x	4.98
