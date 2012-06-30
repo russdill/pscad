@@ -34,6 +34,9 @@ SRC=\
 	0805p.pscad \
 	1206p.pscad \
 	6032p.pscad \
+	7343p.pscad \
+	CCASE.pscad \
+	DCASE.pscad \
 	VCASE.pscad \
 	qsop-16.pscad \
 	R-PDSO-G16.pscad \
