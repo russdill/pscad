@@ -51,7 +51,8 @@ SRC=\
 	SolderJumperOpen.pscad \
 	SolderJumperClosed.pscad \
 	MS8E-8.pscad \
-	QFN-32.pscad
+	QFN-32.pscad \
+	usbmini-b.pscad
 
 FP=$(SRC:%.pscad=%.fp)
 
