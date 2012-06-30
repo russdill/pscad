@@ -2,7 +2,7 @@ PSCAD=./pscad.py
 
 SRC=\
 	dip-32.pscad \
-	kk100-3.pscad \
+	KK100-3.pscad \
 	45558-0003.pscad \
 	HEADER_2MM_2x1.pscad \
 	HEADER_2MM_2x3.pscad \
@@ -14,10 +14,10 @@ SRC=\
 	pcie_x16.pscad \
 	xilinx_jtag.pscad \
 	ti_jtag.pscad \
-	1204-2.pscad \
-	2010-2.pscad \
-	2412-2.pscad \
-	1224-2.pscad \
+	1204-4.pscad \
+	2010-4.pscad \
+	2412-4.pscad \
+	1224-4.pscad \
 	ddr2_clp.pscad \
 	FF784.pscad \
 	onfi_bga100.pscad \
@@ -34,7 +34,7 @@ SRC=\
 	0805p.pscad \
 	6032p.pscad \
 	VCASE.pscad \
-	QSOP-16.pscad \
+	qsop-16.pscad \
 	R-PDSO-G16.pscad \
 	tssop-20.pscad \
 	sot23.pscad \
