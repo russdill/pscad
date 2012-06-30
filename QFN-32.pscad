@@ -1,0 +1,16 @@
+module mlp
+
+name		QFN-32
+pad_w		0.30
+pad_l		0.65
+pitch		0.50
+n		32
+width		4.55
+quad		True
+thermal_x	3.20
+thermal_y	3.20
+indent		0.08
+body_x		5.00
+body_y		5.00
+paste_fraction	0.35
+paste_max	0.60

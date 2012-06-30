@@ -1,0 +1,13 @@
+module sop
+part with_thermal_pad
+
+name		MS8E-8
+pad_l		1.016
+pad_w		0.42
+width		4.206
+pitch		0.65
+n		8
+body_x		3.0
+thermal_x	1.88
+thermal_y	1.68
+

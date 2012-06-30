@@ -23,7 +23,9 @@ defaults = {
     'grid'      :   "0.1",
     'clearance' :   "0.15",
     'mask' :        "0.05",
-    'silk' :        "0.2"
+    'silk' :        "0.2",
+    'paste_fraction': "0.8",
+    'paste_max':    "1.0"
 }
 
 def part(m):
@@ -65,3 +67,17 @@ def part(m):
 
     return all, silk
 
+def with_thermal_pad(m):
+    m = pscad.wrapper(defaults.items() + m.items())
+
+    try:
+        thermal_name = m.pins.split(',')[-1]
+    except:
+        thermal_name = m.n + 1
+
+    thermal_size = (m.thermal_x, m.thermal_y)
+
+    return part(m), pscad.pad(thermal_name, m.clearance, m.mask) + (
+        patterns.thermal_pad(pscad.square(thermal_size, center=True),
+                thermal_size, m.paste_fraction, m.paste_max)
+    )

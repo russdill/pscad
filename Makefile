@@ -49,7 +49,9 @@ SRC=\
 	MLP16.pscad \
 	S-PVQFN-N64.pscad \
 	SolderJumperOpen.pscad \
-	SolderJumperClosed.pscad
+	SolderJumperClosed.pscad \
+	MS8E-8.pscad \
+	QFN-32.pscad
 
 FP=$(SRC:%.pscad=%.fp)
 
