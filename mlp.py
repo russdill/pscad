@@ -30,32 +30,6 @@ defaults = {
     'silk' :        "0.2"
 }
 
-def indent_pad(size, indent):
-    return pscad.union() + (
-        pscad.translate([-size[0] / D(2), -size[1] / D(2)]) + (
-            pscad.square([size[0], size[1] - indent]),
-
-            pscad.right(indent) +
-            pscad.square([size[0] - indent, size[1]]),
-            
-            pscad.down(size[1] - indent) +
-            pscad.rotate(45) + pscad.square(indent * dmath.sqrt(D(2)))
-        )
-    )
-
-def thermal_pad(pad, size, paste_fraction, max_paste_size):
-    paste_x = size[0] * dmath.sqrt(paste_fraction)
-    paste_y = size[1] * dmath.sqrt(paste_fraction)
-    n_x = dmath.ceil(paste_x / max_paste_size)
-    n_y = dmath.ceil(paste_y / max_paste_size)
-
-    paste_pad = pscad.rounded_square([paste_y / n_y, paste_x / n_x], D("0.05"), center=True)
-    return pscad.union() + (
-        pscad.row(pscad.rotate(90) + pscad.row(paste_pad, size[1] / n_y, n_y, center=True),
-            size[0] / n_x, n_x, center=True),
-        pscad.nopaste() + pad
-    )
-
 def mlp_pad(m):
     pad = pscad.union() + (
         pscad.down(m.pad_l / D(2) - m.rounding) +
@@ -90,7 +64,7 @@ def part(m):
 
     all = pscad.pad(itertools.count(1), m.clearance, m.mask) + (
         pads,
-        thermal_pad(indent_pad(thermal_size, m.indent),
+        patterns.thermal_pad(patterns.indent_pad(thermal_size, m.indent),
                 thermal_size, m.paste_fraction, m.paste_max)
     ), pscad.silk(m.silk) + patterns.corners((m.body_x, m.body_y), m.pad_l, center=True)
 
