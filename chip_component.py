@@ -25,13 +25,16 @@ defaults = {
     'clearance' :   "0.15",
     'mask' :        "0.2",
     'silk' :        "0.2",
-    'polarized' :   "False"
+    'polarized' :   "False",
+    'pins' :        "1,2"
 }
 
 def part(m):
     m = pscad.wrapper(defaults.items() + m.items())
 
-    all = pscad.pad(itertools.count(1), m.clearance, m.mask) + (
+    pin_names = (i for i in m.pins.split(','))
+
+    all = pscad.pad(pin_names, m.clearance, m.mask) + (
         pscad.row(pscad.rounded_square((m.pad_w, m.pad_l), m.round_off, center=True), m.pitch, 2, center=True)
     )
 

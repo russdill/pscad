@@ -1,0 +1,4 @@
+include 	1206.pscad
+name		EIA1206p
+polarized	True
+pins		P,N
