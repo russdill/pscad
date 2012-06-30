@@ -43,6 +43,7 @@ SRC=\
 	tssop-20.pscad \
 	sot23.pscad \
 	sot23-6.pscad \
+	sot23-gsd.pscad \
 	ADE-SMT-8.pscad \
 	MLP8.pscad \
 	MLP16.pscad \

@@ -1,0 +1,4 @@
+include sot23.pscad
+
+name	SOT23-GSD
+pins	G,,S,,D,
