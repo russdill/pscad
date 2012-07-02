@@ -6,7 +6,7 @@ module chip_component
 # A 1.3
 # S 2.9
 
-name		EIA6032
+name		EIA2312
 pad_w		2.30
 pad_l		2.25
 pitch		5.00

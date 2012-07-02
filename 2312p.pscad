@@ -1,0 +1,4 @@
+include 	2312.pscad
+name		EIA2312p
+polarized	True
+pins		P,N

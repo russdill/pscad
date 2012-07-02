@@ -6,7 +6,7 @@ module chip_component
 # A 1.3
 # S 4.4
 
-name		EIA7343
+name		EIA2917
 pad_w		3.35
 pad_l		2.45
 pitch		5.20
