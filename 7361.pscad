@@ -1,8 +1,14 @@
 module chip_component
 
-name		EIA6032
-pad_w		2.30
-pad_l		2.25
-pitch		5.00
+# W 6.1
+# L 7.3
+# W1 3.1
+# A 1.4
+# S 4.4
+
+name		EIA7361
+pad_w		3.35
+pad_l		3.20
+pitch		5.20
 round_off	0.25
-body_y		3.20
+body_y		6.10

@@ -35,6 +35,7 @@ SRC=\
 	1206p.pscad \
 	6032p.pscad \
 	7343p.pscad \
+	7361p.pscad \
 	CCASE.pscad \
 	DCASE.pscad \
 	VCASE.pscad \

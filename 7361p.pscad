@@ -1,0 +1,4 @@
+include 	7361.pscad
+name		EIA7361p
+polarized	True
+pins		P,N
