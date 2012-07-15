@@ -28,6 +28,7 @@ SRC=\
 	0603.pscad \
 	0805.pscad \
 	1206.pscad \
+	1411.pscad \
 	2312.pscad \
 	2917.pscad \
 	2924.pscad \
@@ -36,9 +37,11 @@ SRC=\
 	0805p.pscad \
 	0805d.pscad \
 	1206p.pscad \
+	1411p.pscad \
 	2312p.pscad \
 	2917p.pscad \
 	2924p.pscad \
+	BCASE.pscad \
 	CCASE.pscad \
 	DCASE.pscad \
 	VCASE.pscad \

@@ -1,0 +1,4 @@
+include 	1411.pscad
+name		EIA1411p
+polarized	True
+pins		P,N

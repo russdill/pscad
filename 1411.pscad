@@ -1,0 +1,12 @@
+module chip_component
+
+# W 2.8
+# L 3.5
+# W1 2.2
+
+name		EIA1411
+pad_w		1.75
+pad_l		2.25
+pitch		2.70
+round_off	0.25
+body_y		2.80
