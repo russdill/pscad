@@ -465,7 +465,7 @@ class pad(union):
         flags = []
         if state.get_onsolder():
             flags.append("onsolder")
-        if not state.get_paste:
+        if not state.get_paste():
             flags.append("nopaste")
         return """Pad [ %s %s %s %s %s %s %s "%s" "%s" "%s" ]""" % (
             P(c[0]), P(c[1]), P(c[0]), P(c[1]), P(r * D(2)),
