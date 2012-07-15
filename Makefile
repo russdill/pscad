@@ -41,7 +41,7 @@ SRC=\
 	CCASE.pscad \
 	DCASE.pscad \
 	VCASE.pscad \
-	qsop-16.pscad \
+	QSOP-16.pscad \
 	R-PDSO-G16.pscad \
 	tssop-20.pscad \
 	sot23.pscad \
