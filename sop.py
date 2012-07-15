@@ -22,7 +22,7 @@ defaults = {
     'placement' :   "0.25",
     'grid'      :   "0.1",
     'clearance' :   "0.15",
-    'mask' :        "0.05",
+    'mask' :        "2.5 mil",
     'silk' :        "0.2",
     'paste_fraction': "0.8",
     'paste_max':    "1.0"

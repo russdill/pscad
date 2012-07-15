@@ -24,7 +24,7 @@ defaults = {
     'grid' :        "0.1",
     'placement' :   "0.15",
     'clearance' :   "0.15",
-    'mask' :        "0.05",
+    'mask' :        "2.5 mil",
     'silk' :        "0.2"
 }
 

@@ -19,8 +19,8 @@ import patterns
 
 defaults = {
     'clearance' :   D("0.15"),
-    'mask' :        D("0.05"),
-    'silk' :        D("0.2"),
+    'mask' :        "2.5 mil",
+    'silk' :        "0.2",
 }
 
 def part(m):

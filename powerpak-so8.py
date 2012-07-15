@@ -20,7 +20,7 @@ import patterns
 defaults = {
     "round_off" :   "0.1",
     "clearance" :   "0.2",
-    "mask" :        "0.2",
+    "mask" :        "2.5 mil",
     "silk" :        "0.2",
     "placement" :   "0.25",
     "grid" :        "0.1"

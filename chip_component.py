@@ -23,7 +23,7 @@ defaults = {
     'grid' :        "0.1",
     'placement' :   "0.25",
     'clearance' :   "0.15",
-    'mask' :        "0.2",
+    'mask' :        "2.5 mil",
     'silk' :        "0.2",
     'polarized' :   "False",
     'pins' :        "1,2"

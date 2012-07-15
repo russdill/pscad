@@ -19,7 +19,7 @@ import patterns
 
 defaults = {
     'clearance' :   "0.15",
-    'mask' :        "0.05",
+    'mask' :        "2.5 mil",
     'pitch' :       "1.0"
 }
 

@@ -21,7 +21,7 @@ import patterns
 # http://www.molex.com/pdm_docs/sd/455580003_sd.pdf
 defaults = {
     'clearance' :   "0.30",
-    'mask' :        "0.05",
+    'mask' :        "2.5 mil",
     'silk' :        "0.2",
     'placement' :   "0.25",
     'grid' :        "0.1"

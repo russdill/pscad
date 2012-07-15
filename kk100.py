@@ -21,7 +21,7 @@ import patterns
 
 defaults = {
     'clearance' :   "0.15",
-    'mask' :        "0.05",
+    'mask' :        "2.5 mil",
     'silk' :        "0.20",
     'drill_d' :     "1.02",
     'annulus' :     "0.40",
