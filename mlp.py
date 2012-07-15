@@ -24,7 +24,7 @@ defaults = {
     'rounding' :    "0.05",
     'quad'      :   "False",
     'placement' :   "0.25",
-    'grid'      :   "0.1",
+    'grid'      :   "0.5",
     'clearance' :   "0.15",
     'mask' :        "2.5 mil",
     'silk' :        "0.2"

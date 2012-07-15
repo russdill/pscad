@@ -18,7 +18,7 @@ from decimal import Decimal as D
 import patterns
 
 defaults = {
-    'clearance' :   D("0.15"),
+    'clearance' :   "0.15",
     'mask' :        "2.5 mil",
     'silk' :        "0.2",
 }

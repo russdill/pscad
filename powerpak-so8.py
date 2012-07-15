@@ -23,7 +23,7 @@ defaults = {
     "mask" :        "2.5 mil",
     "silk" :        "0.2",
     "placement" :   "0.25",
-    "grid" :        "0.1"
+    "grid" :        "0.5"
 }
 
 def part(m):

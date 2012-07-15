@@ -28,7 +28,7 @@ defaults = {
     'pitch' :       "2.54",
     'body_y' :      "6.35",
     'placement' :   "0.25",
-    'grid' :        "0.1"
+    'grid' :        "0.5"
 }
 
 def part(m):

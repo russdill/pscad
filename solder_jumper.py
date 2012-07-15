@@ -21,7 +21,7 @@ import dmath
 
 defaults = {
     'round_off' :   "0.05",
-    'grid' :        "0.10",
+    'grid' :        "0.50",
     'placement' :   "0.25",
     'clearance' :   "0.15",
     'mask' :        "2.5 mil",
