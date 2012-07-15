@@ -34,6 +34,7 @@ SRC=\
 	0402.pscad \
 	0603p.pscad \
 	0805p.pscad \
+	0805d.pscad \
 	1206p.pscad \
 	2312p.pscad \
 	2917p.pscad \

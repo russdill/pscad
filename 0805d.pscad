@@ -1,0 +1,4 @@
+include 	0805.pscad
+name		EIA0805d
+polarized	True
+pins		C,A
