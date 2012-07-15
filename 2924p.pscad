@@ -1,4 +1,4 @@
-include 	7361.pscad
-name		EIA7361p
+include 	2924.pscad
+name		EIA2924p
 polarized	True
 pins		P,N
