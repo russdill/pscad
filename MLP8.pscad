@@ -11,5 +11,5 @@ thermal_y	5.36
 indent		0.10
 body_x		6.00
 body_y		8.00
-paste_fraction	0.60
+paste_fraction	0.35
 paste_max	1.5

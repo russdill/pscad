@@ -12,7 +12,7 @@ thermal_y	4.25
 indent		0.1
 body_x		9.15
 body_y		9.15
-paste_fraction	0.70
+paste_fraction	0.35
 paste_max	2.0
 pad_paste_fraction 0.80
 

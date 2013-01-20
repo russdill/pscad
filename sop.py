@@ -24,7 +24,7 @@ defaults = {
     'clearance' :   "0.15",
     'mask' :        "2.5 mil",
     'silk' :        "0.2",
-    'paste_fraction': "0.8",
+    'paste_fraction': "0.35",
     'paste_max':    "1.0"
 }
 
