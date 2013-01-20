@@ -1,7 +1,7 @@
 # http://media.digikey.com/pdf/Data%20Sheets/Sullins%20PDFs/SBH11-PBPC-Dxx-ST-xx.pdf
 module	shrouded-header
 
-name	xilinx_jtag
+name	ti_jtag
 drill_d	1.00
 annulus	0.3
 pitch	2.54
