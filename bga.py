@@ -26,7 +26,8 @@ defaults = {
     'no_letter' :   "IOQSYZ",
     'placement' :   "1",
     'grid' :        "0.1",
-    'invert' :      "False"
+    'invert' :      "False",
+    'paste_fraction' : "0.80"
 }
 
 def bga_letters(skip):
@@ -46,7 +47,8 @@ def part(m):
     else:
         skip = None
 
-    row = pscad.row(pscad.circle(m.pad_size / D(2)), m.pitch, m.n_x, center=True)
+    bga_pad = pscad.paste_fraction(pscad.circle(m.pad_size / D(2)), m.paste_fraction)
+    row = pscad.row(bga_pad, m.pitch, m.n_x, center=True)
     all = (
         pscad.pad(bga_names(m.n_x, m.no_letter), m.clearance, m.mask, skip=skip) +
         pscad.rotate(270) + pscad.row(pscad.rotate(90) + row, m.pitch, m.n_y, center=True),
