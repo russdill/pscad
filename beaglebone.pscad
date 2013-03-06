@@ -1,0 +1,4 @@
+module beaglebone
+
+name BeagleBone
+mask 5 mil
