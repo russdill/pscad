@@ -5,7 +5,7 @@ pad_w		0.42
 pad_l		1.00
 pitch		0.65
 n		16
-width		3.70
+height		3.70
 quad		True
 thermal_x	2.30
 thermal_y	2.30
