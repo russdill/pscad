@@ -41,7 +41,7 @@ def mlp_pad(m):
         pscad.square((m.pad_w, m.pad_l - m.rounding - m.pad_w / 2))
     )
     if 'pad_paste_fraction' in m:
-        return pscad.paste_fraction(pad, m.pad_paste_fraction)
+        return pscad.paste_fraction(pad, (1,m.pad_paste_fraction))
     else:
         return pad
 
