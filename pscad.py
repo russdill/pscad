@@ -660,8 +660,15 @@ def expand_to_grid(sq, expand, grid):
              dmath.ceil((sq[1][1] + expand) / grid) * grid))
 
 def paste_fraction(pad, fraction):
+    try:
+        fraction = dmath.sqrt(fraction)
+    except:
+        try:
+            fraction = (fraction[0],fraction[1])
+        except:
+            fraction = (fraction[0],1)
     return union() + (
-        scale(dmath.sqrt(fraction)) + pad,
+        scale(fraction) + pad,
         nopaste() + pad
     ),
 
