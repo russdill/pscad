@@ -650,6 +650,8 @@ def row(obj, pitch, n, center=False):
         return ret
 
 def expand_to_grid(sq, expand, grid):
+    epsilon = D(0.00000000000000000001)
+    expand -= epsilon
     return ((dmath.floor((sq[0][0] - expand) / grid) * grid,
              dmath.floor((sq[0][1] - expand) / grid) * grid),
             (dmath.ceil((sq[1][0] + expand) / grid) * grid,
