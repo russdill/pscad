@@ -60,7 +60,7 @@ def part(m):
     silk = pscad.silk(m.silk) + (
         patterns.placement_courtyard(all, m.placement, m.grid, m.pad_w * D(2)),
 
-        pscad.down(m.width / D(2)) +
+        pscad.down(m.width / 2) +
         pscad.left(m.silk + m.pitch * pin_count / 4) +
         pscad.line([0, m.pad_l * D("0.7")], center=True)
     )

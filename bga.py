@@ -47,7 +47,7 @@ def part(m):
     else:
         skip = None
 
-    bga_pad = pscad.paste_fraction(pscad.circle(m.pad_size / D(2)), m.paste_fraction)
+    bga_pad = pscad.paste_fraction(pscad.circle(m.pad_size / 2), m.paste_fraction)
     row = pscad.row(bga_pad, m.pitch, m.n_x, center=True)
     all = (
         pscad.pad(bga_names(m.n_x, m.no_letter), m.clearance, m.mask, skip=skip) +
@@ -59,8 +59,8 @@ def part(m):
     silk = pscad.silk(m.silk) + (
         patterns.placement_courtyard(all, m.placement, m.grid, 1),
 
-        pscad.translate([-m.body_x / D(2), -m.pitch * (m.n_y - 1) / D(2)]) +
-        pscad.left(m.silk * D(2)) + pscad.line([0, m.pitch * D(2)], center=True)
+        pscad.translate([-m.body_x / 2, -m.pitch * (m.n_y - 1) / 2]) +
+        pscad.left(m.silk * 2) + pscad.line([0, m.pitch * 2], center=True)
     )
 
     if m.invert:

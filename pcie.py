@@ -26,15 +26,15 @@ defaults = {
 def part(m):
     m = pscad.wrapper(defaults.items() + m.items())
 
-    pad = pscad.square((D("0.70"), D("4.0")), center=True)
+    pad = pscad.square((D("0.70"), 4), center=True)
     key_pad = pscad.up(D("0.40")) + pscad.square((D("0.70"), D("3.20")), center=True)
 
     mask_dist = D("3.20") - D("2.40") + m.mask
-    mask_pad = pscad.down(D("1.2") - mask_dist / D(2)) + pscad.square((D("0.70"), mask_dist), center=True)
+    mask_pad = pscad.down(D("1.2") - mask_dist / 2) + pscad.square((D("0.70"), mask_dist), center=True)
     mask_pads = (
         pscad.row(mask_pad, m.pitch, 11),
         
-        pscad.right(m.pitch * 10 + D("3.0")) +
+        pscad.right(m.pitch * 10 + 3) +
         pscad.row(mask_pad, m.pitch, m.n + 1)
     )
 
@@ -44,7 +44,7 @@ def part(m):
     all = pscad.pad(names('B'), m.clearance, m.mask) + (
         pscad.row(pad, m.pitch, 11),
 
-        pscad.right(m.pitch * 10 + D("3.0")) +
+        pscad.right(m.pitch * 10 + 3) +
         pscad.row(pad, m.pitch, m.n - 1) +
         pscad.right(m.pitch * m.n - 1) + (
             key_pad,
@@ -56,7 +56,7 @@ def part(m):
         key_pad,
         pscad.right(m.pitch) +
         pscad.row(pad, m.pitch, 10),
-        pscad.right(m.pitch * 10 + D("3.0")) +
+        pscad.right(m.pitch * 10 + 3) +
         pscad.row(pad, m.pitch, m.n + 1)
     ), (
         pscad.pad(names('B'), m.clearance, D("2.40")) + mask_pads,

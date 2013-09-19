@@ -47,7 +47,7 @@ M20W_defaults = {
 }
 
 def ptd08a0x0w_pins(m):
-    pwr_pin = pscad.donut(I("0.055") / D(2), I("0.055") / D(2) + D("0.5"))
+    pwr_pin = pscad.donut(I("0.055") / 2, I("0.055") / 2 + D("0.5"))
     return pscad.pin(itertools.count(1), m.clearance, m.mask) + (
         pwr_pin,
         pscad.down(m.a) + pwr_pin +
@@ -56,7 +56,7 @@ def ptd08a0x0w_pins(m):
     )
 
 def common_pins(m):
-    sig_pin = pscad.donut(I("0.028") / D(2), I("0.028") / D(2) + D("0.18"))
+    sig_pin = pscad.donut(I("0.028") / 2, I("0.028") / 2 + D("0.18"))
     return pscad.pin(itertools.count(5), m.clearance, m.mask) + (
         pscad.down(I("0.350")) +
         pscad.rotate(90) +
@@ -71,7 +71,7 @@ def ptd08a0x0w_template(m):
         common_pins(m),
 
         pscad.silk(m.silk) +
-        pscad.translate([m.d / D(2), m.a / D(2)]) +
+        pscad.translate([m.d / 2, m.a / 2]) +
         pscad.square([m.e, m.f], center=True)
     )
 
@@ -104,7 +104,7 @@ def ptd08a0x0w(m):
         common_pins(m),
 
         pscad.silk(m.silk) +
-        pscad.translate([m20w.d / D(2), m20w.a / D(2)]) +
+        pscad.translate([m20w.d / 2, m20w.a / 2]) +
         pscad.square([m20w.e, m20w.f], center=True)
     )
 

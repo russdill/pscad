@@ -32,13 +32,13 @@ defaults = {
 
 def mlp_pad(m):
     pad = pscad.union() + (
-        pscad.down(m.pad_l / D(2) - m.rounding) +
-        pscad.square((m.pad_w, m.rounding * D(2)), rounded=True, center=True),
+        pscad.down(m.pad_l / 2 - m.rounding) +
+        pscad.square((m.pad_w, m.rounding * 2), rounded=True, center=True),
 
-        pscad.up((m.pad_l - m.pad_w) / D(2)) +
-        pscad.circle(m.pad_w / D(2)) +
-        pscad.left(m.pad_w / D(2)) +
-        pscad.square((m.pad_w, m.pad_l - m.rounding - m.pad_w / D(2)))
+        pscad.up((m.pad_l - m.pad_w) / 2) +
+        pscad.circle(m.pad_w / 2) +
+        pscad.left(m.pad_w / 2) +
+        pscad.square((m.pad_w, m.pad_l - m.rounding - m.pad_w / 2))
     )
     if 'pad_paste_fraction' in m:
         return pscad.paste_fraction(pad, m.pad_paste_fraction)
@@ -69,10 +69,10 @@ def part(m):
     ), pscad.silk(m.silk) + patterns.corners((m.body_x, m.body_y), m.pad_l, center=True)
 
     silk = pscad.silk(m.silk) + (
-        patterns.placement_courtyard(all, m.placement, m.grid, m.pad_w * D(2)),
+        patterns.placement_courtyard(all, m.placement, m.grid, m.pad_w * 2),
 
-        pscad.translate([-m.body_x / D(2), m.body_y / D(2)]) +
-        pscad.down(m.silk * D(2)) +
+        pscad.translate([-m.body_x / 2, m.body_y / 2]) +
+        pscad.down(m.silk * 2) +
         pscad.line(m.pad_l * D("0.7"))
     )
 

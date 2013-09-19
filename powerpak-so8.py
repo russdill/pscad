@@ -40,16 +40,16 @@ def part(m):
 
     all = (
         pscad.pad(itertools.count(1), m.clearance, m.mask) +
-        pscad.down((width - pad_size0[1]) / D(2)) +
+        pscad.down((width - pad_size0[1]) / 2) +
         pscad.row(pscad.rounded_square(pad_size0, m.round_off, center=True), pitch, 4, center=True),
 
         pscad.pad((i for i in [6, 6, 5, 5]), m.clearance, m.mask) +
-        pscad.up((width - pad_size1[1]) / D(2)) +
+        pscad.up((width - pad_size1[1]) / 2) +
         pscad.row(pscad.rounded_square(pad_size1, m.round_off, center=True), pitch, 4, center=True),
 
         pscad.pad((i for i in [6, 5]), m.clearance, m.mask) +
-        pscad.down(width / D(2)) +
-        pscad.up(pad_size0[1] + D("0.82") + pad_size2[1] / D(2)) +
+        pscad.down(width / 2) +
+        pscad.up(pad_size0[1] + D("0.82") + pad_size2[1] / 2) +
         pscad.row(thermal_pad, D("0.61") + pad_size2[0], 2, center=True),
 
         pscad.silk(m.silk) + patterns.brackets(body, D("0.2"), center=True)
@@ -58,7 +58,7 @@ def part(m):
     silk = pscad.silk(m.silk) + (
         patterns.placement_courtyard(all, m.placement, m.grid, D("0.5")),
 
-        pscad.down(width / D(2) + m.silk) +
+        pscad.down(width / 2 + m.silk) +
         pscad.left(pitch * D("1.5")) +
         pscad.line(pad_size0[0], center=True)
     )

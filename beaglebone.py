@@ -28,7 +28,7 @@ def header(m):
     def names(prefix):
         return (prefix + str(i) for i in itertools.count(1))
 
-    row = pscad.row(pscad.donut(m.drill_d / D(2), m.drill_d / D(2) + m.annulus), m.pitch, m.n_x, center=True)
+    row = pscad.row(pscad.donut(m.drill_d / 2, m.drill_d / 2 + m.annulus), m.pitch, m.n_x, center=True)
     all = pscad.pin(names(m.prefix), m.clearance, m.mask) + (
         pscad.rotate(270) + pscad.row(pscad.rotate(90) + row, m.pitch, m.n_y, center=True)
     )
@@ -57,14 +57,14 @@ def part(m):
     p_m['prefix'] = "J1-"
     j1 = header(pscad.wrapper(m.items() + p_m.items()))
 
-    mhole = pscad.donut(I("0.125") / D(2), I("0.125") / D(2) + I("0.03125"))
+    mhole = pscad.donut(I("0.125") / 2, I("0.125") / 2 + I("0.03125"))
 
     all = (
-        pscad.left(I("3.4") / D(2) - I("0.775") - I("0.1") * D(11)) + (
-            pscad.up(I("1.9") / D(2)) + p8,
-            pscad.down(I("1.9") / D(2)) + p9 + pscad.up(I("0.175")) + pscad.right(I("0.050")) + j1
+        pscad.left(I("3.4") / 2 - I("0.775") - I("0.1") * 11) + (
+            pscad.up(I("1.9") / 2) + p8,
+            pscad.down(I("1.9") / 2) + p9 + pscad.up(I("0.175")) + pscad.right(I("0.050")) + j1
         ),
-        pscad.pin(itertools.count(1), m.clearance, m.mask) + pscad.left(I("3.4") / D(2)) + pscad.down(I("2.15") / D(2)) + (
+        pscad.pin(itertools.count(1), m.clearance, m.mask) + pscad.left(I("3.4") / 2) + pscad.down(I("2.15") / 2) + (
             pscad.right(I("3.175")) + (pscad.up(I("0.25")) + mhole, pscad.up(I("1.9")) + mhole),
             pscad.right(I("0.575")) + (pscad.up(I("0.125")) + mhole, pscad.up(I("2.025")) + mhole)
         )

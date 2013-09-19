@@ -28,7 +28,7 @@ defaults = {
 def part(m):
     m = pscad.wrapper(defaults.items() + m.items())
 
-    row = pscad.row(pscad.donut(m.drill_d / D(2), m.drill_d / D(2) + m.annulus), m.pitch, m.n_x, center=True)
+    row = pscad.row(pscad.donut(m.drill_d / 2, m.drill_d / 2 + m.annulus), m.pitch, m.n_x, center=True)
 
     all = (
         pscad.pin(itertools.count(1), m.clearance, m.mask) + 
@@ -37,9 +37,9 @@ def part(m):
 
         pscad.silk(m.silk) + (
             pscad.square((m.body_x, m.body_y), center=True),
-            pscad.square((m.body_x - m.thickness * D(2), m.body_y - m.thickness * D(2)), center=True),
+            pscad.square((m.body_x - m.thickness * 2, m.body_y - m.thickness * 2), center=True),
 
-            pscad.left((m.body_x - m.thickness) / D(2)) +
+            pscad.left((m.body_x - m.thickness) / 2) +
             pscad.square((m.thickness, m.key), center=True)
         )
     )

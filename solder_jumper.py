@@ -33,19 +33,19 @@ defaults = {
 
 def mlp_pad(m):
     return pscad.union() + (
-        pscad.down(m.pad_l / D(2) - m.round_off) +
-        pscad.square((m.pad_w, m.round_off * D(2)), rounded=True, center=True),
+        pscad.down(m.pad_l / 2 - m.round_off) +
+        pscad.square((m.pad_w, m.round_off * 2), rounded=True, center=True),
 
-        pscad.up((m.pad_l - m.pad_w) / D(2)) +
-        pscad.circle(m.pad_w / D(2)) +
-        pscad.left(m.pad_w / D(2)) +
-        pscad.square((m.pad_w, m.pad_l - m.round_off - m.pad_w / D(2)))
+        pscad.up((m.pad_l - m.pad_w) / 2) +
+        pscad.circle(m.pad_w / 2) +
+        pscad.left(m.pad_w / 2) +
+        pscad.square((m.pad_w, m.pad_l - m.round_off - m.pad_w / 2))
     )
 
 def closed(m):
     m = pscad.wrapper(defaults.items() + m.items())
 
-    pad = pscad.left((m.pad_l + m.space) / D(2)) + pscad.rotate(90) + mlp_pad(m)
+    pad = pscad.left((m.pad_l + m.space) / 2) + pscad.rotate(90) + mlp_pad(m)
     all = pscad.pad(itertools.count(1), m.clearance, m.mask) + (
         pad, pscad.mirror([1, 0]) + pad
     )

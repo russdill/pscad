@@ -26,13 +26,13 @@ defaults = {
 def part(m):
     m = pscad.wrapper(defaults.items() + m.items())
 
-    row = pscad.row(pscad.donut(m.drill_d / D(2), m.drill_d / D(2) + m.annulus), m.pitch, m.n_x, center=True)
+    row = pscad.row(pscad.donut(m.drill_d / 2, m.drill_d / 2 + m.annulus), m.pitch, m.n_x, center=True)
     all = pscad.pin(itertools.count(1), m.clearance, m.mask) + (
         pscad.rotate(270) + pscad.row(pscad.rotate(90) + row, m.pitch, m.n_y, center=True)
     )
 
     silk = pscad.silk(m.silk) + (
-        patterns.corners((m.n_x * m.pitch, m.n_y * m.pitch), m.pitch / D(4), center=True)
+        patterns.corners((m.n_x * m.pitch, m.n_y * m.pitch), m.pitch / 4, center=True)
     )
 
     return all, silk

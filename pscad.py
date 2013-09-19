@@ -25,7 +25,7 @@ def parse_unit(val):
         return D(val)
     except:
         ext = val.lstrip('+-0123456789.eE ')
-        m = D(1)
+        m = 1
         if len(ext):
             val = val[0:-len(ext)]
             try:
@@ -292,10 +292,10 @@ class mirror(multmatrix):
         a, b = D(v[0]), -D(v[1])
         a = a / dmath.hypot(a, b)
         b = b / dmath.hypot(a, b)
-        self.m[0,0] = 1 - D(2) * a * a
-        self.m[0,1] = - D(2) * a * b
-        self.m[1,0] = - D(2) * a * b
-        self.m[1,1] = 1 - D(2) * b * b
+        self.m[0,0] = 1 - 2 * a * a
+        self.m[0,1] = - 2 * a * b
+        self.m[1,0] = - 2 * a * b
+        self.m[1,1] = 1 - 2 * b * b
 
 class shape(pscad):
     def __init__(self, v = None):
@@ -320,11 +320,11 @@ class square(shape):
             v = [ D(v[0]), D(v[1]) ]
         except:
             v = [ D(v), D(v) ]
-        o = (D(0), D(0)) if center else (v[0] / D(2), v[1] / D(2))
-        self.points.append((o[0] - v[0] / D(2), o[1] - v[1] / D(2)))
-        self.points.append((o[0] - v[0] / D(2), o[1] + v[1] / D(2)))
-        self.points.append((o[0] + v[0] / D(2), o[1] + v[1] / D(2)))
-        self.points.append((o[0] + v[0] / D(2), o[1] - v[1] / D(2)))
+        o = (D(0), D(0)) if center else (v[0] / 2, v[1] / 2)
+        self.points.append((o[0] - v[0] / 2, o[1] - v[1] / 2))
+        self.points.append((o[0] - v[0] / 2, o[1] + v[1] / 2))
+        self.points.append((o[0] + v[0] / 2, o[1] + v[1] / 2))
+        self.points.append((o[0] + v[0] / 2, o[1] - v[1] / 2))
         self.paths.append([0, 1, 2, 3, 0])
         # Only for pads
         self.rounded = rounded
@@ -341,9 +341,9 @@ class line(shape):
             size = [ D(size[0]), D(size[1]) ]
         except:
             size = [ D(size), D(0) ]
-        o = (D(0), D(0)) if center else (size[0] / D(2), size[1] / D(2))
-        self.points.append((o[0] - size[0] / D(2), o[1] - size[1] / D(2)))
-        self.points.append((o[0] + size[0] / D(2), o[1] + size[1] / D(2)))
+        o = (D(0), D(0)) if center else (size[0] / 2, size[1] / 2)
+        self.points.append((o[0] - size[0] / 2, o[1] - size[1] / 2))
+        self.points.append((o[0] + size[0] / 2, o[1] + size[1] / 2))
         self.paths.append([0, 1])
 
 class circle(shape):
@@ -429,15 +429,15 @@ class pad(union):
         ret = []
         for i in range(len(points)):
             p0, p1 = points[i], points[(i + 1) % len(points)]
-            m.append(((p0[0] + p1[0]) / D(2), (p0[1] + p1[1]) / D(2)))
+            m.append(((p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2))
         dim0 = dmath.hypot(m[2][0] - m[0][0], m[2][1] - m[0][1])
         dim1 = dmath.hypot(m[3][0] - m[1][0], m[3][1] - m[1][1])
 
-        c = ((m[0][0] + m[2][0]) / D(2), (m[0][1] + m[2][1]) / D(2))
+        c = ((m[0][0] + m[2][0]) / 2, (m[0][1] + m[2][1]) / 2)
 
         if dim0.quantize(D("0.000001")) == dim1.quantize(D("0.000001")):
             if rounded:
-                ret.append(circ_pad(name, c, dim0 / D(2)), state)
+                ret.append(circ_pad(name, c, dim0 / 2), state)
             else:
                 ret += self.rect_pad(name, [ points[0], points[1], m[1], m[3] ], False, state)
                 ret += self.rect_pad(name, [ m[3], m[1], points[2], points[3] ], False, state)
@@ -455,14 +455,14 @@ class pad(union):
         if not state.get_paste():
             flags.append("nopaste")
 
-        thickness = min(dim0, dim1) / D(2)
-        width = max(dim0, dim1) - thickness * D(2)
+        thickness = min(dim0, dim1) / 2
+        width = max(dim0, dim1) - thickness * 2
         p = []
-        p.append((c[0] + dmath.cos(angle) * width / D(2), c[1] + dmath.sin(angle) * width / D(2)))
-        p.append((c[0] - dmath.cos(angle) * width / D(2), c[1] - dmath.sin(angle) * width / D(2)))
+        p.append((c[0] + dmath.cos(angle) * width / 2, c[1] + dmath.sin(angle) * width / 2))
+        p.append((c[0] - dmath.cos(angle) * width / 2, c[1] - dmath.sin(angle) * width / 2))
         ret.append("""Pad [ %s %s %s %s %s %s %s "%s" "%s" "%s" ]""" % (
-            P(p[0][0]), P(p[0][1]), P(p[1][0]), P(p[1][1]), P(thickness * D(2)),
-            P(self.clearance * D(2)), P((self.mask + thickness) * D(2)), name, name,
+            P(p[0][0]), P(p[0][1]), P(p[1][0]), P(p[1][1]), P(thickness * 2),
+            P(self.clearance * 2), P((self.mask + thickness) * 2), name, name,
             ",".join(flags)))
         return ret
 
@@ -473,8 +473,8 @@ class pad(union):
         if not state.get_paste():
             flags.append("nopaste")
         return """Pad [ %s %s %s %s %s %s %s "%s" "%s" "%s" ]""" % (
-            P(c[0]), P(c[1]), P(c[0]), P(c[1]), P(r * D(2)),
-            P(self.clearance * D(2)), P((self.mask + r) * D(2)), name, name,
+            P(c[0]), P(c[1]), P(c[0]), P(c[1]), P(r * 2),
+            P(self.clearance * 2), P((self.mask + r) * 2), name, name,
             ",".join(flags))
 
     def render(self, obj, state):
@@ -514,11 +514,11 @@ class pin(union):
             c, r1, a1 = obj.center_radius_angle(state.m)
             _, r2, a2 = obj.child.center_radius_angle(state.m)
             ret.append("""Pin [ %s %s %s %s %s %s "%s" "%s" "" ]""" % (
-                P(c[0]), P(c[1]), P(r1[0] * D(2)), P(self.clearance * D(2)),
-                P((self.mask + r1[0]) * D(2)), P(r2[0] * D(2)), name, name))
+                P(c[0]), P(c[1]), P(r1[0] * 2), P(self.clearance * 2),
+                P((self.mask + r1[0]) * 2), P(r2[0] * 2), name, name))
             if self.square:     
                 tmp_state = local_state(state)
-                sq = square(obj.points[1][0] * D(2), center=True)
+                sq = square(obj.points[1][0] * 2, center=True)
                 un = union(name, tmp_state)
                 np = nopaste()
                 os = back()
@@ -543,9 +543,9 @@ class hole(pscad):
             dy = points[1][1] - points[0][1]
             r = dmath.hypot(dx, dy)
             ret.append("""Pin [ %s %s %s %s %s %s "" "" "hole" ]""" % (
-                P(points[0][0]), P(points[0][1]), P(r * D(2)),
-                P(self.clearance * D(2)), P((self.mask + r) * D(2)),
-                P(r * D(2))))
+                P(points[0][0]), P(points[0][1]), P(r * 2),
+                P(self.clearance * 2), P((self.mask + r) * 2),
+                P(r * 2)))
         return ret
 
 class mark(pscad):
@@ -629,25 +629,25 @@ def rounded_square(v, r, center=False):
     except:
         v = [ D(v), D(v) ]
 
-    if r * D(2) == min(v):
+    if r * 2 == min(v):
         return square(v, center, rounded=True),
 
-    assert r * D(2) < min(v)
+    assert r * 2 < min(v)
 
-    o = (D(0), D(0)) if center else (v[0] / D(2), v[1] / D(2))
+    o = (D(0), D(0)) if center else (v[0] / 2, v[1] / 2)
     r = D(r)
     return union() + translate(o) + (
-        square((v[0] - r * D(2), v[1] - r * D(2)), center=True),
-        left(v[0] / D(2) - r) + square([r * D(2), v[1]], center=True, rounded=True),
-        right(v[0] / D(2) - r) + square([r * D(2), v[1]], center=True, rounded=True),
-        up(v[1] / D(2) - r) + square([v[0], r * D(2)], center=True, rounded=True),
-        down(v[1] / D(2) - r) + square([v[0], r * D(2)], center=True, rounded=True)
+        square((v[0] - r * 2, v[1] - r * 2), center=True),
+        left(v[0] / 2 - r) + square([r * 2, v[1]], center=True, rounded=True),
+        right(v[0] / 2 - r) + square([r * 2, v[1]], center=True, rounded=True),
+        up(v[1] / 2 - r) + square([v[0], r * 2], center=True, rounded=True),
+        down(v[1] / 2 - r) + square([v[0], r * 2], center=True, rounded=True)
     ),
 
 def row(obj, pitch, n, center=False):
     ret = tuple(right(i * pitch) + obj for i in range(n))
     if center:
-        return left(pitch * (n - 1) / D(2)) + ret,
+        return left(pitch * (n - 1) / 2) + ret,
     else:
         return ret
 

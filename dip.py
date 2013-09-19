@@ -28,14 +28,14 @@ def part(m):
     pin_row = pscad.row(pscad.donut(m.drill_r, m.drill_r + m.annulus), m.pitch, m.n / 2, center=True)
 
     pins = pscad.pin(itertools.count(1), m.clearance, m.mask, square=True) + (
-        pscad.down(m.width / D(2)) + pin_row,
-        pscad.up(m.width / D(2)) + pscad.rotate(180) + pin_row
+        pscad.down(m.width / 2) + pin_row,
+        pscad.up(m.width / 2) + pscad.rotate(180) + pin_row
     )
 
-    length = m.pitch * (m.n + 1) / D(2)
+    length = m.pitch * (m.n + 1) / 2
     silk = pscad.silk(m.silk) + (
-        pscad.square([length, m.width - (m.drill_r + m.annulus) * D(2) - m.silk * D(4)], center=True),
-        pscad.left(length / D(2)) + pscad.rotate(270) + pscad.circle(m.width / D(10), sweep=180)
+        pscad.square([length, m.width - (m.drill_r + m.annulus) * 2 - m.silk * 4], center=True),
+        pscad.left(length / 2) + pscad.rotate(270) + pscad.circle(m.width / D(10), sweep=180)
     )
 
     return pins, silk

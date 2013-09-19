@@ -34,7 +34,7 @@ defaults = {
 def part(m):
     m = pscad.wrapper(defaults.items() + m.items())
 
-    row = pscad.row(pscad.donut(m.drill_d / D(2), m.drill_d / D(2) + m.annulus),
+    row = pscad.row(pscad.donut(m.drill_d / 2, m.drill_d / 2 + m.annulus),
         m.pitch, m.n, center=True)
 
     all = (
@@ -48,9 +48,9 @@ def part(m):
     silk = pscad.silk(m.silk) + (
         patterns.placement_courtyard(all, m.placement, m.grid, 1),
         
-        pscad.up(m.body_y / D(2)) +
+        pscad.up(m.body_y / 2) +
         pscad.left(m.pitch) +
-        pscad.square((m.pitch * D(2), m.body_y / D(4)))
+        pscad.square((m.pitch * 2, m.body_y / 4))
     )
 
     return all, silk
