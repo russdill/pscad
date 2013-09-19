@@ -32,7 +32,7 @@ def I(v):
 def part(m):
     m = pscad.wrapper(defaults.items() + m.items())
 
-    pad_row = pscad.row(pscad.rounded_square(
+    pad_row = pscad.rotate(180) + pscad.row(pscad.rounded_square(
         (D("0.5"), D("2.0")), m.round_off, center=True), D("0.8"), 5, center=True)
 
     gnd_row = pscad.row(pscad.donut(I("0.034"), I("0.045")), D("5.3"), 2)
