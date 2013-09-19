@@ -56,7 +56,7 @@ def indent_pad(size, indent):
 
             pscad.right(indent) +
             pscad.square([size[0] - indent, size[1]]),
-            
+
             pscad.down(size[1] - indent) +
             pscad.rotate(45) + pscad.square(indent * dmath.sqrt(D(2)))
         )

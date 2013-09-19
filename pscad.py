@@ -201,7 +201,7 @@ class union(pscad):
         super(union, self).__init__()
         self.name = name
         self.skip = skip
-        
+
     def pre(self, state):
         super(union, self).pre(state)
         if self.name is None:
@@ -403,7 +403,7 @@ class silk(pscad):
                 sweep = (sweep % 360).quantize(D('1.00'))
                 ret.append("ElementArc [ %s %s %s %s %s %s %s ]" % (
                     P(c[0]), P(c[1]), P(r[0]), P(r[1]), start, sweep, P(self.w)))
-                
+
         else:
            for path in obj.paths:
                for i in range(0, len(path) - 1):
@@ -542,7 +542,7 @@ class hole(pscad):
                 P(self.clearance * D(2)), P((self.mask + r) * D(2)),
                 P(r * D(2))))
         return ret
- 
+
 class mark(pscad):
     def __init__(self):
         super(mark, self).__init__()
