@@ -57,6 +57,8 @@ def xform(m, p):
         return [ xform(m, n) for n in p ]
 
 def P(n):
+    if type(n) is int:
+        n= D(n)
     return str(n.quantize(D("0.000001"))) + "mm"
 
 class cache_holder(object):
