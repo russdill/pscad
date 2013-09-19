@@ -113,6 +113,8 @@ def bound(obj, state=None):
         for o in obj:
             tmp_state = local_state(state)
             ret += bound(o, tmp_state)
+    elif obj is None:
+        pass
     else:
         obj.pre(state)
         ret += obj.bound(state)
@@ -134,8 +136,9 @@ def render(obj, state):
     ret = []
     if type(obj) is tuple:
         for o in obj:
-            tmp_state = local_state(state)
-            ret += render(o, tmp_state)
+            if o is not None:
+                tmp_state = local_state(state)
+                ret += render(o, tmp_state)
     else:
         ret += obj.do_render(state)
     return ret
