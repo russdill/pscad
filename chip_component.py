@@ -26,16 +26,23 @@ defaults = {
     'mask' :        "2.5 mil",
     'silk' :        "0.2",
     'polarized' :   "False",
-    'pins' :        "1,2"
+    'pins' :        "1,2,3",
+    'tri' :         "False"
 }
 
 def part(m):
     m = pscad.wrapper(defaults.items() + m.items())
 
     pin_names = (i for i in m.pins.split(','))
+    pad = pscad.rounded_square((m.pad_w, m.pad_l), m.round_off, center=True)
+
+    if m.tri:
+        tri = pscad.right(m.pitch) + pscad.nopaste() + pad
+    else:
+        tri = None
 
     all = pscad.pad(pin_names, m.clearance, m.mask) + (
-        pscad.row(pscad.rounded_square((m.pad_w, m.pad_l), m.round_off, center=True), m.pitch, 2, center=True)
+        pscad.left(m.pitch if m.tri else 0) + pscad.row(pad, m.pitch, 2, center=not m.tri), tri
     )
 
     if 'body_y' in m:
