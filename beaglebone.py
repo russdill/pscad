@@ -62,7 +62,7 @@ def part(m):
     all = (
         pscad.left(I("3.4") / D(2) - I("0.775") - I("0.1") * D(11)) + (
             pscad.up(I("1.9") / D(2)) + p8,
-            pscad.down(I("1.9") / D(2)) + p9 + pscad.up(I("0.175")) + pscad.right(I("0.150")) + j1
+            pscad.down(I("1.9") / D(2)) + p9 + pscad.up(I("0.175")) + pscad.right(I("0.050")) + j1
         ),
         pscad.pin(itertools.count(1), m.clearance, m.mask) + pscad.left(I("3.4") / D(2)) + pscad.down(I("2.15") / D(2)) + (
             pscad.right(I("3.175")) + (pscad.up(I("0.25")) + mhole, pscad.up(I("1.9")) + mhole),
