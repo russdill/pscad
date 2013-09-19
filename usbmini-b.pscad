@@ -1,2 +1,4 @@
 module usbmini-b
 name usbmini-b
+
+include	clearance.inc

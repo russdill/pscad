@@ -7,3 +7,5 @@ width	2.60
 pitch	0.95
 body_x	2.94
 pins	1,,2,,3,
+
+include	clearance.inc

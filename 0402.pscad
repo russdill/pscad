@@ -6,3 +6,5 @@ pad_l		0.65
 pitch		1.00
 round_off	0.15
 placement	0.15
+
+include	clearance.inc
