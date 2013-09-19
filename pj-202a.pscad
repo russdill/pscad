@@ -1,0 +1,4 @@
+module pj-202a
+name pj-202a
+
+include	clearance.inc

@@ -1,0 +1,15 @@
+module	header
+name	TE_104118
+
+clearance	0.15
+mask		0.05
+silk		0.2
+
+pitch		50 mil
+drill_d 	22 mil
+annulus 	6 mil
+
+n_x	10
+n_y	2
+
+

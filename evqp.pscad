@@ -1,0 +1,9 @@
+module sop
+
+name	evqp
+pad_l	1.45
+pad_w	1.0
+width	5.15
+pitch	1.7
+pins	1,2,4,3
+corners 1.0

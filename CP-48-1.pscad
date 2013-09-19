@@ -1,0 +1,18 @@
+module mlp
+
+name		CP-48-1
+pad_w		0.30
+pad_l		0.80
+pitch		0.50
+n		48
+height		6.70
+quad		True
+thermal_x	5.25
+thermal_y	5.25
+indent		0.08
+body_x		7.00
+body_y		7.00
+paste_fraction	0.35
+paste_max	0.60
+
+include	clearance.inc

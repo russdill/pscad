@@ -1,0 +1,5 @@
+include header.inc
+
+name	HEADER_6x1
+n_x	6
+n_y	1

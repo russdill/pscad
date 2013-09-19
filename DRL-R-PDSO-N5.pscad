@@ -1,0 +1,5 @@
+include DRL-R-PDSO-N.pscad
+
+name	DRL-R-PDSO-N5
+body_x	1.60
+pins	1,2,3,4,,5

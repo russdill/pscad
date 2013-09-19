@@ -1,0 +1,11 @@
+module sop
+
+name	DGS (S-PDSO-G10)
+pad_l	1.40
+pad_w	0.30
+width	4.50
+pitch	0.50
+n	10
+body_x	3.00
+pad_paste_fraction 0.68
+include	clearance.inc

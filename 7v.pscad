@@ -1,0 +1,12 @@
+module sop
+
+name	7v
+pad_l	1.2
+pad_w	1.4
+width	1.7
+pitch	2.2
+n	4
+corners 1.0
+pad_paste_fraction 0.8
+
+include	clearance.inc

@@ -1,0 +1,7 @@
+module sop
+
+pad_l	0.45
+pad_w	0.30
+width	1.35
+pitch	0.50
+include	clearance.inc

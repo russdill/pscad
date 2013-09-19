@@ -1,0 +1,4 @@
+module pj-012a
+name pj-012a
+
+include	clearance.inc

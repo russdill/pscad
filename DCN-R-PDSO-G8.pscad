@@ -1,0 +1,10 @@
+module sop
+
+name	DCN (R-PDSO-G8)
+pad_l	0.80
+pad_w	0.45
+width	2.70
+pitch	0.65
+n	8
+body_x	3.00
+pad_paste_fraction 0.68

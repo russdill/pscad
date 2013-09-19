@@ -1,0 +1,8 @@
+module chip_component
+
+name		EIA0806
+pad_w		1.30
+pad_l		1.85
+pitch		1.90
+
+include	clearance.inc

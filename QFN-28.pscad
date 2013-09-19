@@ -1,0 +1,17 @@
+module mlp
+
+name		QFN-28
+pad_w		0.28
+pad_l		0.65
+pitch		0.50
+n		28
+height		4.85
+quad		True
+thermal_x	3.10
+thermal_y	3.10
+indent		0.08
+body_x		5.00
+body_y		5.00
+paste_fraction	0.35
+paste_max	0.60
+pad_paste_fraction 0.80

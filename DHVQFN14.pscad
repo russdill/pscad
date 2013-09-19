@@ -1,0 +1,21 @@
+module mlp
+
+name		DHVQFN14
+pad_w		0.24
+pad_l		0.90
+start_pin       2
+pitch		0.50
+n		14
+width		3.10
+height		2.60
+quad		True
+pads_x		2
+thermal_x	1.40
+thermal_y	0.90
+indent		0.08
+body_x		3.00
+body_y		2.50
+paste_fraction	0.35
+paste_max	0.60
+
+include	clearance.inc

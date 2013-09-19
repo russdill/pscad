@@ -1,0 +1,18 @@
+module mlp
+
+include	clearance.inc
+name		QFN-64
+pad_w		0.30
+pad_l		0.65
+pitch		0.50
+n		64
+height		8.55
+quad		True
+thermal_x	4.35
+thermal_y	4.35
+indent		0.08
+body_x		9.00
+body_y		9.00
+paste_fraction	0.35
+paste_max	0.60
+pad_paste_fraction 0.80

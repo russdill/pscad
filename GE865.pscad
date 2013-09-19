@@ -1,0 +1,14 @@
+module bga
+
+name		GE865
+pad_size	1.00
+pitch		2.40
+n_x		8
+n_y		8
+body_x		22.10
+body_y		22.10
+no_letter	I
+placement	1.5
+mask		0.075
+skip		H4
+invert		True

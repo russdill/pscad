@@ -1,0 +1,12 @@
+module sop
+
+name	SOT666
+pad_l	0.85
+pad_w	0.30
+width	1.45
+pitch	0.50
+body_x	1.60
+n	6
+pad_paste_fraction 0.80
+
+include	clearance.inc
