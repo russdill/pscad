@@ -35,17 +35,17 @@ def part(m):
                    pscad.row(pad1, D("1.5"), 6, center=True)
     )
 
-    pad2 = pscad.rounded_square([D("0.8"), D("1.0")], m.round_off, center=True)
+    pad2 = pscad.rounded_square([D("0.8"), 1], m.round_off, center=True)
     pad2_row = pscad.pad("7", m.clearance, m.mask) + (
                    pscad.rotate(90) + pscad.row(pad2, D("2.1"), 2, center=True)
     )
 
     bore = pscad.hole(m.clearance, 0) + pscad.circle(D("0.9") / 2)
-    bore_row = pscad.row(bore, D("5.0"), 2, center = True)
+    bore_row = pscad.row(bore, 5, 2, center = True)
 
     pads = (
         bore_row,
-        pscad.up(D("1.0") + D("1.5") / 2) + pad1_row,
+        pscad.up(1 + D("1.5") / 2) + pad1_row,
         pscad.left(D("11.8") / 2) + pad2_row,
         pscad.right(D("11.8") / 2) + pad2_row
     )
@@ -55,7 +55,7 @@ def part(m):
         pscad.silk(m.silk) + pscad.square((D("11.3"), D("2.6")), center=True)
     )
 
-    tick = pscad.line((D("0"), D("0.5")), center=True)
+    tick = pscad.line((0, D("0.5")), center=True)
     silk = pscad.silk(m.silk) + (
         patterns.placement_courtyard(all, m.placement, m.grid, 1),
         pscad.down(D("1.3")) + pscad.row(tick, D("1.5"), 5, center=True)
