@@ -96,8 +96,13 @@ SRC=\
 	beaglebone.pscad
 
 FP=$(SRC:%.pscad=%.fp)
+PNG=$(SRC:%.pscad=%.png)
+
+PCB=~/src/pcb/_install/bin/pcb
 
 all: $(FP)
+
+png: $(PNG)
 
 -include $(SRC:%.pscad=.%.d)
 
@@ -108,6 +113,17 @@ all: $(FP)
 		sed -e 's/^ *//' -e 's/$$/:/' >> .$*.d
 	@rm -f .$*.d.tmp
 	$(PSCAD) $*.pscad $*.fp
+
+%.png: %.fp
+	mkdir -p gerber/$*
+	cp pcbscad.gvp gerber/$*/
+	cp nodrill.cnc gerber/$*/pcbscad.plated-drill.cnc
+	cp nodrill.cnc gerber/$*/pcbscad.unplated-drill.cnc
+	$(PCB) -x gerber --metric --all-layers --gerberfile gerber/$*/pcbscad $<
+	cd gerber/$*/ && gerbv -p pcbscad.gvp -o ../../$@ -x png -a -D 800
+
+montage.png: $(PNG)
+	montage -mode Concatenate -geometry +4+4 -background \#510071 -adjoin $^ $@
 
 clean:
 	-rm -f *.fp .*.d .*.d.tmp
