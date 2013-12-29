@@ -26,7 +26,8 @@ defaults = {
     'silk' :        "0.2",
     'paste_fraction': "0.35",
     'paste_max':    "1.0",
-    'pad_paste_fraction': "1.0"
+    'pad_paste_fraction': "1.0",
+    'quad' :        False
 }
 
 def part(m):
@@ -39,23 +40,46 @@ def part(m):
         pin_count = len(m.pins.split(','))
         pin_names = (i for i in m.pins.split(','))
 
+    if 'pads_x' in m:
+        pads_x = m.pads_x
+    elif m.quad:
+        pads_x = pin_count / 4
+    else:
+        pads_x = 0
+    pads_y = pin_count / 2 - pads_x
+
     try:
         body_y = m.body_y
     except:
         body_y = m.width - m.pad_l - m.silk * 3
 
+    if 'height' in m:
+        height = m.height
+    else:
+        height = m.width
+
     pad = pscad.rounded_square((m.pad_w, m.pad_l), m.round_off, center=True)
 
-    pad_row = pscad.row(
+    row_y = pscad.down(m.width / 2) + pscad.row(
         pscad.paste_fraction(pad, (1,m.pad_paste_fraction)),
-        m.pitch, pin_count / 2, center=True)
+        m.pitch, pads_y, center=True)
 
-    pads = pscad.pad(pin_names, m.clearance, m.mask) + (
-        pscad.down(m.width / 2) + pad_row,
-        pscad.up(m.width / 2) + pscad.rotate(180) + pad_row
-    )
+    if m.quad:
+        row_x = pscad.down(height / 2) + pscad.row(
+            pscad.paste_fraction(pad, (1,m.pad_paste_fraction)),
+            m.pitch, pads_x, center=True)
+        pads = pscad.pad(pin_names, m.clearance, m.mask) + (
+            row_y, pscad.rotate(90) + row_x,
+            pscad.rotate(180) + row_y, pscad.rotate(270) + row_x
+        )
+    else:
+        pads = pscad.pad(pin_names, m.clearance, m.mask) + (
+            row_y, pscad.rotate(180) + row_y
+        )
 
     try:
+        if m.quad:
+            raise Exception()
         if body_y > m.width - m.pad_l - m.silk * 2:
             edge = m.body_x / 2 - m.pitch * D(pin_count) / 4
             body = patterns.brackets([m.body_x, body_y], edge, center=True)
@@ -74,7 +98,7 @@ def part(m):
         patterns.placement_courtyard(all, m.placement, m.grid, corners),
 
         pscad.down(m.width / 2) +
-        pscad.left(m.silk + m.pitch * pin_count / 4) +
+        pscad.left(m.silk + m.pitch * pads_y / 2) +
         pscad.line([0, m.pad_l * D("0.7")], center=True)
     )
 
