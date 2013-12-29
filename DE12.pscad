@@ -1,0 +1,16 @@
+module mlp
+
+name		DE12
+pad_w		0.25
+pad_l		0.70
+pitch		0.50
+n		12
+height		2.90
+thermal_x	3.30
+thermal_y	1.70
+indent		0.35
+body_x		4.00
+body_y		3.00
+paste_fraction	0.60
+paste_max	1.5
+

@@ -1,0 +1,13 @@
+module	shrouded-header
+
+name	SHEADER_2x5
+drill_d	1.00
+annulus	0.3
+pitch	2.54
+body_x	9.10
+# (n - 1) * 2.54 + 10.16
+body_y	20.32
+n_x	2
+n_y	5
+thickness 1.15
+key	4.50

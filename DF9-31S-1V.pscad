@@ -1,0 +1,6 @@
+module vesa_fpdi
+name DF9-31S-1V
+
+include	clearance.inc
+
+n	31

@@ -1,0 +1,15 @@
+module mlp
+
+name		8MA2-8
+pad_w		0.32
+pad_l		0.80
+pitch		0.50
+n		8
+height		2.80
+thermal_x	1.50
+thermal_y	1.30
+indent		0.10
+body_x		2.00
+body_y		3.00
+paste_fraction	0.35
+paste_max	0.80

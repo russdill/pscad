@@ -1,0 +1,14 @@
+module dfn-3
+
+name		DFN1006-3
+x		0.7mm
+y		0.4mm
+g1		0.3mm
+g2		0.2mm
+c		0.7mm
+z		1.1mm
+pins		C,B,E
+round_off	0.08
+placement	0.15
+
+include	clearance.inc

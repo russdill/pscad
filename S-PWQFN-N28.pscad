@@ -1,0 +1,18 @@
+module mlp
+
+name		RUY(S-PWQFN-N28)
+pad_w		0.20
+pad_l		0.80
+pitch		0.40
+n		28
+height		4.00
+quad		True
+thermal_x	2.60
+thermal_y	2.60
+indent		0.1
+body_x		4.15
+body_y		4.15
+paste_fraction	0.40
+paste_max	1.0
+pad_paste_fraction 0.80
+

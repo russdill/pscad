@@ -1,0 +1,10 @@
+module chip_component
+
+name		SDR0805
+pad_w		3.70
+pad_l		8.00
+pitch		5.10
+round_off	0.30
+placement	0.20
+
+include	clearance.inc

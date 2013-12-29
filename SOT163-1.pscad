@@ -1,0 +1,10 @@
+module sop
+
+name	SOT163-1
+pad_w	0.60
+pad_l	1.50
+pitch	1.27
+width	9.50
+n	20
+body_x	13.0
+pad_paste_fraction 0.80

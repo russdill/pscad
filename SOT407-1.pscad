@@ -1,0 +1,11 @@
+module sop
+
+include	clearance.inc
+name		SOT407-1
+pad_w		0.28
+pad_l		1.50
+pitch		0.50
+n		100
+width		15.8
+quad		True
+pad_paste_fraction 0.80

@@ -1,0 +1,16 @@
+module mlp
+
+name		NHN0016A
+pad_w		0.30
+pad_l		0.80
+pitch		0.50
+n		16
+height		4.50
+thermal_x	4.00
+thermal_y	3.20
+indent		0.10
+body_x		5.00
+body_y		5.00
+paste_fraction	0.35
+paste_max	1.20
+pad_paste_fraction 0.75

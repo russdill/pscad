@@ -1,0 +1,6 @@
+module chip_component
+
+name		EIA1210
+pad_w		1.60
+pad_l		2.70
+pitch		2.80

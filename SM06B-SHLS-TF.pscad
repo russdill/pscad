@@ -1,0 +1,5 @@
+module shl
+name SM06B-SHLS-TF
+
+include	clearance.inc
+n	6
