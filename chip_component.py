@@ -63,10 +63,12 @@ def part(m):
         mark = pscad.empty()
 
     silk = pscad.silk(m.silk) + (
-        pscad.translate(courtyard[0]) +
-        patterns.brackets(courtyard_sz, m.pad_w),
+        pscad.rotate(90) + pscad.line(m.pad_l, center=True),
         mark,
         body_lines
+    # Placement courtyard
+    #) + pscad.silk(0.001) + (
+    #    pscad.translate(courtyard[0]) + patterns.corners(courtyard_sz, m.pad_w)
     )
 
     return all, silk
