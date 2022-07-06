@@ -27,7 +27,7 @@ def part(m):
 
     pin_row = pscad.row(pscad.donut(m.drill_r, m.drill_r + m.annulus), m.pitch, m.n / 2, center=True)
 
-    pins = pscad.pin(itertools.count(1), m.clearance, m.mask, square=True) + (
+    pins = pscad.pin(itertools.count(1), m.clearance, m.mask) + (
         pscad.down(m.width / 2) + pin_row,
         pscad.up(m.width / 2) + pscad.rotate(180) + pin_row
     )
