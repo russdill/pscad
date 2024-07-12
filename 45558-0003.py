@@ -28,7 +28,7 @@ defaults = {
 }
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     row = pscad.row(pscad.donut(D("1.8") / 2, D("1.8") / 2 + D("0.5")), D("4.2"), 3)
     all = (

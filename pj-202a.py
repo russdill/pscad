@@ -27,7 +27,7 @@ defaults = {
 }
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     pin1 = pscad.donut(D("1.83"), D("2.43"))
     pin23 = pscad.donut(D("1.59"), D("2.19"))

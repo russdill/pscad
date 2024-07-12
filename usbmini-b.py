@@ -30,7 +30,7 @@ def I(v):
     return D("25.4") * D(v)
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     pad_row = pscad.rotate(180) + pscad.row(pscad.rounded_square(
         (D("0.5"), D("2.0")), m.round_off, center=True), D("0.8"), 5, center=True)

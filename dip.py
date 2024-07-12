@@ -23,7 +23,7 @@ defaults = {
 }
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     pin_row = pscad.row(pscad.donut(m.drill_r, m.drill_r + m.annulus), m.pitch, m.n / 2, center=True)
 

@@ -24,7 +24,7 @@ defaults = {
 }
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     pad = pscad.square((D("0.70"), 4), center=True)
     key_pad = pscad.up(D("0.40")) + pscad.square((D("0.70"), D("3.20")), center=True)

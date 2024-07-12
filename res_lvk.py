@@ -29,7 +29,7 @@ defaults = {
 }
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     row = pscad.row(pscad.rounded_square([m.l, m.w], m.round_off, center=True), m.a + m.l, 2, center=True)
     all = pscad.pad(itertools.count(1), m.clearance, m.mask) + (

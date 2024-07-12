@@ -39,7 +39,8 @@ SOFTWARE.
 
 import math
 import decimal
-from decimal import Decimal, getcontext, setcontext, _convert_other
+from decimal import Decimal, getcontext, setcontext
+from _pydecimal import _convert_other
 
 D = Decimal
 
@@ -260,11 +261,11 @@ def atan(x, context=None):
         return D(0, context=context)
     elif abs(x) > 1:
         PI = pi(context=context)
-        x_is_inf = x._isinfinity()
+        x_is_inf = x.is_infinite()
         if x_is_inf:
-            return PI / D((x._sign, (2,), 0), context=context)
+            return PI / D((x.is_signed(), (2,), 0), context=context)
         else:
-            c = PI / D((x._sign, (2,), 0), context=context)
+            c = PI / D((x.is_signed(), (2,), 0), context=context)
             x = 1 / x
     
     context.prec += 2
@@ -293,23 +294,23 @@ def atan2(y, x, context=None):
 # decimal zero has a sign
     abs_y = abs(y)
     abs_x = abs(x)
-    y_is_real = not x._isinfinity()
+    y_is_real = not x.is_infinite()
     
     if x != 0:
         if y_is_real:
             a = y and atan(y / x, context=context) or D(0)
             if x < 0:
-                a += D((y._sign, (1,), 0)) * pi(context=context)
+                a += D((y.is_signed(), (1,), 0)) * pi(context=context)
             return a
         elif abs_y == abs_x:
-            x = D((x._sign, (1,), 0))
-            y = D((y._sign, (1,), 0))
+            x = D((x.is_signed(), (1,), 0))
+            y = D((y.is_signed(), (1,), 0))
             return pi(context=context) * (2 - x) / (4 * y)
 
     if y != 0:
-        return atan(D((y._sign, (0,), 'F')))
+        return atan(D((y.is_signed(), (0,), 'F')))
     elif x < 0:
-        return D((y._sign, (1,), 0)) * pi()
+        return D((y.is_signed(), (1,), 0)) * pi()
     else:
         return D(0)
 

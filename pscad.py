@@ -89,7 +89,7 @@ class local_state(object):
 
     def next_name(self):
         try:
-            return self.name.next()
+            return next(self.name)
         except:
             return str(self.name)
 
@@ -309,8 +309,9 @@ class polygon(shape):
         super(shape, self).__init__()
         self.points = points
         if paths is None:
-            paths = range(len(points))
+            paths = list(range(len(points)))
             paths.append(0)
+            paths = [paths]
         self.paths = paths
 
 class square(shape):
@@ -601,12 +602,12 @@ def element(n, desc):
     else:
         t, dir, scale = (D(0), D(0)), 0, 100
 
-    print """Element [0x00 "%s" "" "" %s %s %s %s %s %s 0x00]""" % (
-        desc, P(m[0]), P(m[1]), P(t[0]), P(t[1]), dir, scale)
-    print "("
+    print("""Element [0x00 "%s" "" "" %s %s %s %s %s %s 0x00]""" % (
+        desc, P(m[0]), P(m[1]), P(t[0]), P(t[1]), dir, scale))
+    print("(")
     for statement in statements:
-        print "\t" + statement
-    print ")"
+        print("\t" + statement)
+    print(")")
 
 # PCB uses screen coordinates, not cartesian
 def up(v):
@@ -645,7 +646,7 @@ def rounded_square(v, r, center=False):
     ),
 
 def row(obj, pitch, n, center=False):
-    ret = tuple(right(i * pitch) + obj for i in range(n))
+    ret = tuple(right(i * pitch) + obj for i in range(int(n)))
     if center:
         return left(pitch * (n - 1) / 2) + ret,
     else:
@@ -699,14 +700,14 @@ if __name__ == "__main__":
     data = parse_file(sys.argv[1])
     module = __import__(data["module"])
     if do_deps:
-        deps = [ i.__file__ for i in sys.modules.values() if i and getattr(i, "__file__", None)]
+        deps = [ i.__file__ for i in list(sys.modules.values()) if i and getattr(i, "__file__", None)]
         other = []
         for dep in deps:
             if dep.endswith(".pyc") and os.path.isfile(dep[:-1]):
                 other.append(dep[:-1])
         deps = set(deps) | set(other) | data["_deps"]
-        print sys.argv[2] + ": " + " \\\n\t".join(deps)
+        print(sys.argv[2] + ": " + " \\\n\t".join(deps))
     else:
         objs = getattr(module, data.get("part", "part"))(data)
-        sys.stdout = open(sys.argv[2], 'wb')
+        sys.stdout = open(sys.argv[2], 'w')
         element(objs, data["name"])

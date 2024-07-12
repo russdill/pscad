@@ -37,7 +37,7 @@ def header(m):
 
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     p_m = dict()
 
@@ -47,15 +47,15 @@ def part(m):
     p_m['annulus'] = "0.3"
     p_m['drill_d'] = "40 mil"
     p_m['pitch'] = "0.1 in"
-    p8 = header(pscad.wrapper(m.items() + p_m.items()))
+    p8 = header(pscad.wrapper(list(m.items()) + list(p_m.items())))
 
     p_m['prefix'] = "P9-"
-    p9 = header(pscad.wrapper(m.items() + p_m.items()))
+    p9 = header(pscad.wrapper(list(m.items()) + list(p_m.items())))
 
     p_m['n_x'] = 1
     p_m['n_y'] = 6
     p_m['prefix'] = "J1-"
-    j1 = header(pscad.wrapper(m.items() + p_m.items()))
+    j1 = header(pscad.wrapper(list(m.items()) + list(p_m.items())))
 
     mhole = pscad.donut(I("0.125") / 2, I("0.125") / 2 + I("0.03125"))
 

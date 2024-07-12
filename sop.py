@@ -31,7 +31,7 @@ defaults = {
 }
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     try:
         pin_count = m.n
@@ -46,7 +46,7 @@ def part(m):
         pads_x = pin_count / 4
     else:
         pads_x = 0
-    pads_y = pin_count / 2 - pads_x
+    pads_y = int(pin_count / 2 - pads_x)
 
     try:
         body_y = m.body_y
@@ -105,7 +105,7 @@ def part(m):
     return all, silk
 
 def with_thermal_pad(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     try:
         thermal_name = m.pins.split(',')[-1]

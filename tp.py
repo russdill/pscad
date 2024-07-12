@@ -21,7 +21,7 @@ defaults = {
 }
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     all = pscad.pad('1', m.clearance, m.mask) + (
           pscad.rounded_square((m.pad_w, m.pad_l), m.round_off, center=True)

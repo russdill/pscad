@@ -31,16 +31,16 @@ defaults = {
 }
 
 def bga_letters(skip):
-    return itertools.ifilterfalse(lambda x: x in skip, ascii_uppercase)
+    return itertools.filterfalse(lambda x: x in skip, ascii_uppercase)
 
 def bga_dletters(skip):
     return (i[0] + i[1] for i in itertools.product([''] + list(bga_letters(skip)), bga_letters(skip)))
 
 def bga_names(n, skip):
-    return (i[0] + str(i[1]) for i in itertools.product(bga_dletters(skip), range(1, n+1)))
+    return (i[0] + str(i[1]) for i in itertools.product(bga_dletters(skip), list(range(1, n+1))))
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     if 'skip' in m:
         skip = lambda name: re.match(m.skip, name)

@@ -27,7 +27,7 @@ defaults = {
 }
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     large_pad = pscad.rounded_square((D("2.9"), D("2.75")), m.round_off, center=True)
     small_pad = pscad.rounded_square((D("2.4"), D("2.55")), m.round_off, center=True)

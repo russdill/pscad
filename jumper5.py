@@ -33,7 +33,7 @@ defaults = {
 }
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     pin = pscad.donut(m.drill_d / 2, m.drill_d / 2 + m.annulus)
     all = pscad.pin(itertools.count(1), m.clearance, m.mask) + (

@@ -29,7 +29,7 @@ defaults = {
 }
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     pin_names = (i for i in m.pins.split(','))
     pad1 = pscad.rounded_square((m.z - m.g1 - m.y, m.x), m.round_off, center=True)

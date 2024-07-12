@@ -82,17 +82,17 @@ def ptd08a0x0w_template(m):
     return all, silk
 
 def ptd08a010w(m):
-    m = pscad.wrapper(defaults.items() + M10W_defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(M10W_defaults.items()) + list(m.items()))
     return ptd08a0x0w_template(m)
 
 def ptd08a020w(m):
-    m = pscad.wrapper(defaults.items() + M20W_defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(M20W_defaults.items()) + list(m.items()))
     return ptd08a0x0w_template(m)
 
 def ptd08a0x0w(m):
-    m = pscad.wrapper(defaults.items() + m.items())
-    m10w = pscad.wrapper(defaults.items() + M10W_defaults.items() + m.items())
-    m20w = pscad.wrapper(defaults.items() + M20W_defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
+    m10w = pscad.wrapper(list(defaults.items()) + list(M10W_defaults.items()) + list(m.items()))
+    m20w = pscad.wrapper(list(defaults.items()) + list(M20W_defaults.items()) + list(m.items()))
     
     all = (
         ptd08a0x0w_pins(m20w),

@@ -47,14 +47,14 @@ def mlp_pad(m):
         return pad
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     pads = []
     for i in range(0, m.n):
         pads.append(pscad.rotate(i * 360 / m.n) + pscad.down(m.height / 2) + mlp_pad(m))
     pads = tuple(pads)
 
-    pin_list = range(m.start_pin, m.n - m.start_pin + 3) + range(1, m.start_pin) + [int(m.n) + 1]
+    pin_list = list(range(m.start_pin, m.n - m.start_pin + 3)) + list(range(1, m.start_pin)) + [int(m.n) + 1]
     all = pscad.pad(itertools.cycle(pin_list), m.clearance, m.mask) + (
         pads,
     ), pscad.silk(m.silk) + patterns.corners((m.body_x, m.body_y), m.pad_l, center=True)

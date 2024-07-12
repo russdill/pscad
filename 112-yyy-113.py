@@ -30,7 +30,7 @@ def I(v):
     return D("25.4") * D(v)
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     row = pscad.row(pscad.donut(I("0.035") / 2, I("0.030")),
             I("0.085"), m.pins / 2, center=True)

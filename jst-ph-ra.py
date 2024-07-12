@@ -30,7 +30,7 @@ defaults = {
 }
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     row = pscad.row(pscad.donut(m.drill_d / 2, m.drill_d / 2 + m.annulus),
         m.pitch, m.n, center=True)

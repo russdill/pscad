@@ -50,7 +50,7 @@ def mlp_row(m, n, dist):
     return pscad.down(dist / 2) + pscad.row(mlp_pad(m), m.pitch, n, center=True)
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     if 'pads_x' in m:
         pads_x = m.pads_x
@@ -77,7 +77,9 @@ def part(m):
     else:
         pads = row_y, pscad.rotate(180) + row_y
 
-    pin_list = range(m.start_pin, m.n - m.start_pin + 3) + range(1, m.start_pin) + [int(m.n) + 1]
+    n = int(m.n)
+    start_pin = int(m.start_pin)
+    pin_list = list(range(start_pin, n - start_pin + 3)) + list(range(1, start_pin)) + [n + 1]
     all = pscad.pad(itertools.cycle(pin_list), m.clearance, m.mask) + (
         pads,
         patterns.thermal_pad(patterns.indent_pad(thermal_size, m.indent),

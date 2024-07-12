@@ -43,7 +43,7 @@ def mlp_pad(m):
     )
 
 def closed(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     pad = pscad.left((m.pad_l + m.space) / 2) + pscad.rotate(90) + mlp_pad(m)
     all = pscad.pad(itertools.count(1), m.clearance, m.mask) + (

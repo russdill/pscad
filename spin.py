@@ -39,7 +39,7 @@ def pad(m):
     return pscad.union() + tuple(ret)
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     all = pscad.pad(itertools.count(1), m.clearance, m.mask) + pad(m)
 

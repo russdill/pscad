@@ -27,7 +27,7 @@ defaults = {
 }
 
 def part(m):
-    m = pscad.wrapper(defaults.items() + m.items())
+    m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
     outer_pad = pscad.square((I("0.060"), I("0.3")), center=True)
     pad = pscad.up(I("0.035") / 2) + pscad.square((I("0.060"), I("0.265")), center=True)
