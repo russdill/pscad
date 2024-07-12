@@ -1,0 +1,7 @@
+module mlp44-24l
+
+name	PowerPAK MLP44-24L
+pad_paste_fraction 0.90
+paste_fraction 0.35
+
+include	clearance.inc

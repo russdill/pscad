@@ -1,0 +1,6 @@
+module tp
+
+name		TP-1MM
+pad_w		1.00
+pad_l		1.00
+round_off	0.02

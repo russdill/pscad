@@ -27,6 +27,7 @@ defaults = {
     'silk' :        "0.2",
     'polarized' :   "False",
     'pins' :        "1,2,3",
+    'offset' :      "0",
     'tri' :         "False"
 }
 
@@ -37,12 +38,14 @@ def part(m):
     pad = pscad.rounded_square((m.pad_w, m.pad_l), m.round_off, center=True)
 
     if m.tri:
-        tri = pscad.right(m.pitch) + pscad.nopaste() + pad
+        tri = pscad.right(m.pitch) + pscad.down(m.offset) + pscad.nopaste() + pad
     else:
         tri = None
 
     all = pscad.pad(pin_names, m.clearance, m.mask) + (
-        pscad.left(m.pitch if m.tri else 0) + pscad.row(pad, m.pitch, 2, center=not m.tri), tri
+        pscad.left(m.pitch if m.tri else m.pitch / 2) + (pscad.up(m.offset) + pad,) +
+        pscad.right(m.pitch) + (pscad.down(0 if m.tri else m.offset) + pad,),
+	tri
     )
 
     if 'body_y' in m:
@@ -50,25 +53,29 @@ def part(m):
     else:
         body_lines = pscad.empty()
 
-    courtyard = pscad.expand_to_grid(pscad.bound((all, body_lines)), m.placement, m.grid)
-    courtyard_sz = (courtyard[1][0] - courtyard[0][0], courtyard[1][1] - courtyard[0][1])
-
     if m.polarized:
+        mc = pscad.expand_to_grid(pscad.bound((all, body_lines)), max(D("0.20"), m.placement), m.grid)
         mark = (
-            pscad.right(courtyard[0][0]) +
-            pscad.rotate(90) +
-            pscad.circle(courtyard_sz[1] / D(6), sweep=180)
+            pscad.left(mc[0][0]) +
+            pscad.rotate(270) +
+            pscad.circle((mc[1][1] - mc[0][1]) / D(6), sweep=180)
         )
     else:
         mark = pscad.empty()
 
-    silk = pscad.silk(m.silk) + (
-        pscad.rotate(90) + pscad.line(m.pad_l, center=True),
-        mark,
-        body_lines
+    sep = pscad.rotate(90) + pscad.line(m.pad_l, center=True),
+    if m.tri:
+        sep = pscad.row(sep, m.pitch, 2, center=True)
+
+    silk = pscad.silk(m.silk) + (sep, mark, body_lines)
+    if m.placement != 0:
+        courtyard = pscad.expand_to_grid(pscad.bound((all, body_lines)), max(0.25, m.placement), m.grid)
+        courtyard_sz = (courtyard[1][0] - courtyard[0][0], courtyard[1][1] - courtyard[0][1])
+        silk += pscad.translate(courtyard[0]) + patterns.corners(courtyard_sz, m.pad_w)
     # Placement courtyard
     #) + pscad.silk(0.001) + (
     #    pscad.translate(courtyard[0]) + patterns.corners(courtyard_sz, m.pad_w)
-    )
+    #)
+
 
     return all, silk

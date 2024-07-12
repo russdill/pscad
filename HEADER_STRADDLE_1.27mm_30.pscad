@@ -1,0 +1,8 @@
+module header-straddle
+include clearance.inc
+
+name	HEADER_STRADDLE_1.27mm_30
+pitch	1.27
+n	30
+pad_l	2.80
+pad_w	0.60

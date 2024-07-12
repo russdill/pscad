@@ -1,0 +1,9 @@
+include header-ra.inc
+
+name	HEADER-RA_2x20
+n_x	20
+n_y	2
+pitch_x	100 mil
+pitch_y	310 mil
+body_x	2258 mil
+body_y	320 mil

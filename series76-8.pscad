@@ -1,0 +1,11 @@
+module dip
+
+name SERIES76-8
+drill_r 0.4
+annulus 0.3
+pitch 2.54
+width 7.62
+body_w 9.65
+body_l 22.4
+n 16
+

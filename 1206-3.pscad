@@ -1,0 +1,4 @@
+include 1206.pscad
+
+name		EIA1206-3
+tri		True

@@ -1,0 +1,9 @@
+module chip_component
+
+name		wurth_14.5mm
+pad_w		3.2
+pad_l		5.5
+offset		2.75
+pitch		11.4
+round_off	0.25
+body_y		13.5

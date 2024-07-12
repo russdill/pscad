@@ -1,4 +1,4 @@
-# module dip.py
+# module 45558-0003.py
 #
 # Copyright (C) 2012 Russ Dill <Russ.Dill@asu.edu>
 #
@@ -15,35 +15,37 @@
 import pscad
 import itertools
 from decimal import Decimal as D
+import patterns
+
 
 defaults = {
-    'clearance' :   "0.2",
-    'mask' :        "0.2",
-    'silk' :        "0.4",
+    'clearance' :   "0.30",
+    'mask' :        "2.5 mil",
+    'silk' :        "0.2",
+    'placement' :   "0.25",
+    'grid' :        "0.1"
 }
 
 def part(m):
     m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
-    pin_row = pscad.row(pscad.donut(m.drill_r, m.drill_r + m.annulus), m.pitch, m.n / 2, center=True)
-
-    pins = pscad.pin(itertools.count(1), m.clearance, m.mask) + (
-        pscad.down(m.width / 2) + pin_row,
-        pscad.up(m.width / 2) + pscad.rotate(180) + pin_row
+    row_1 = pscad.row(pscad.donut(D("1.0") / 2, D("1.0") / 2 + D("0.3")), D("2.5"), 3, center=True)
+    row_2 = pscad.row(pscad.donut(D("2.2") / 2, D("2.2") / 2 + D("0.3")), D("10.0"), 2, center=True)
+    all = (
+        pscad.pin(itertools.count(1), m.clearance, m.mask) + (
+            pscad.down(D("3.3")) + row_1,
+            row_2
+        ),
+        pscad.silk(m.silk) + (
+            pscad.up(D("2.4") - D("9.2") / 2) +
+            pscad.square((D("10.0"), D("9.2")), center=True)
+        )
     )
 
-    if 'body_l' in m:
-        length = m.body_l
-    else:
-        length = m.pitch * (m.n + 1) / 2
-    if 'body_w' in m:
-        width = m.body_w
-    else:
-        width = m.width - (m.drill_r + m.annulus) * 2 - m.silk * 4
     silk = pscad.silk(m.silk) + (
-        pscad.square([length, width], center=True),
-        pscad.left(length / 2) + pscad.rotate(270) + pscad.circle(m.width / D(10), sweep=180)
+        patterns.placement_courtyard(all, m.placement, m.grid, 1),    
     )
 
-    return pins, silk
+    return all, silk
+
 

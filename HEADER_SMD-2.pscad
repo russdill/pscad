@@ -1,0 +1,11 @@
+module sop
+
+name	HEADER_SMD
+pad_l	4.56
+pad_w	1.00
+width	4.56
+pitch	2.54
+#body_x	2.94
+pins	1,,2,,
+
+include	clearance.inc

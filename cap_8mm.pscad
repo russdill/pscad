@@ -1,0 +1,13 @@
+module electrolytic_surface_mount
+
+name		SIZE_8MM
+pad_w		3.8
+pad_l		2.0
+pitch		7.0
+round_off	0.15
+placement	0.50
+body_x		8.3
+body_y		8.3
+corner		2.2
+
+include	clearance.inc

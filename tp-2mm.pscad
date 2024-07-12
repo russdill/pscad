@@ -1,0 +1,6 @@
+module tp
+
+name		TP-2MM
+pad_w		2.00
+pad_l		2.00
+round_off	0.04

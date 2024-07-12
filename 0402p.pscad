@@ -1,0 +1,4 @@
+include 	0402.pscad
+name		EIA0402p
+polarized	True
+pins		P,N

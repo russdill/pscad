@@ -1,4 +1,4 @@
-# module tp
+# module header-ra.py
 #
 # Copyright (C) 2012 Russ Dill <Russ.Dill@asu.edu>
 #
@@ -13,22 +13,29 @@
 # Lesser General Public License for more details.
 
 import pscad
+import itertools
+from decimal import Decimal as D
+import patterns
+import string
 
 defaults = {
-    'round_off' :   "0.2",
     'clearance' :   "0.15",
     'mask' :        "2.5 mil",
-    'paste_fraction': "0.50",
+    'silk' :        "0.2",
 }
 
 def part(m):
     m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
-    pad = pscad.rounded_square((m.pad_w, m.pad_l), m.round_off, center=True)
-
-    all = pscad.pad('1', m.clearance, m.mask) + (
-          pscad.paste_fraction(pad, (1,m.paste_fraction))
+    row = pscad.row(pscad.donut(m.drill_d / 2, m.drill_d / 2 + m.annulus), m.pitch_x, m.n_x, center=True)
+    names = (i[0] + str(i[1]) for i in itertools.product(string.ascii_uppercase[:int(m.n_y)], range(1, int(m.n_x)+1)))
+    all = pscad.pin(names, m.clearance, m.mask) + (
+        pscad.rotate(270) + pscad.row(pscad.rotate(90) + row, m.pitch_y, m.n_y, center=True)
     )
 
-    return all
+    silk = pscad.silk(m.silk) + (
+        patterns.corners((m.body_x, m.body_y), m.pitch_x / 4, center=True)
+    )
+
+    return all, silk
 

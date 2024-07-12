@@ -1,0 +1,8 @@
+module header-straddle
+include clearance.inc
+
+name	HEADER_STRADDLE_20
+pitch	2.54
+n	20
+pad_l	3.20
+pad_w	1.27

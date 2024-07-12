@@ -1,0 +1,10 @@
+module sop
+
+name	PW (R-PDSO-G24)
+pad_l	1.60
+pad_w	0.35
+width	6.50
+pitch	0.65
+n	24
+body_x	7.80
+pad_paste_fraction 0.68

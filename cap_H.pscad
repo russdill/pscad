@@ -1,0 +1,13 @@
+module electrolytic_surface_mount
+
+name		SIZE_H
+pad_w		5.7
+pad_l		2.0
+pitch		9.7
+round_off	0.15
+placement	0.50
+body_x		13.5
+body_y		13.5
+corner		2.5
+
+include	clearance.inc

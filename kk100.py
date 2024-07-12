@@ -48,9 +48,8 @@ def part(m):
     silk = pscad.silk(m.silk) + (
         patterns.placement_courtyard(all, m.placement, m.grid, 1),
         
-        pscad.up(m.body_y / 2) +
-        pscad.left(m.pitch) +
-        pscad.square((m.pitch * 2, m.body_y / 4))
+        pscad.down(m.body_y * 3 / 8) +
+        pscad.square((m.pitch * 2, m.body_y / 4), center=True)
     )
 
     return all, silk

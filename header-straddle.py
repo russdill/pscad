@@ -1,6 +1,6 @@
-# module header.py
+# module pcie
 #
-# Copyright (C) 2012 Russ Dill <Russ.Dill@asu.edu>
+# Copyright (C) 2022 Russ Dill <Russ.Dill@asu.edu>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -20,29 +20,24 @@ import patterns
 defaults = {
     'clearance' :   "0.15",
     'mask' :        "2.5 mil",
-    'silk' :        "0.2",
+    'pitch' :       "1.27",
+    'pad_l' :       "2.80",
+    'pad_w' :       "0.60",
+    'n' :           40,
+    'offset':       True
 }
 
 def part(m):
     m = pscad.wrapper(list(defaults.items()) + list(m.items()))
 
-    row = pscad.row(pscad.donut(m.drill_d / 2, m.drill_d / 2 + m.annulus), m.pitch, m.n_x, center=True)
-
-    try:
-        n_y = int(m.n_y)
-        names = itertools.count(1)
-    except:
-        y_names = m.n_y.split(',')
-        n_y = len(y_names)
-        names = (i[0] + str(i[1]) for i in itertools.product(y_names, range(1, int(m.n_x)+1)))
-
-    all = pscad.pin(names, m.clearance, m.mask) + (
-        pscad.rotate(270) + pscad.row(pscad.rotate(90) + row, m.pitch, n_y, center=True)
+    pad = pscad.square((m.pad_w, m.pad_l), center=True)
+    row1 = pscad.row(pad, m.pitch, (m.n + 1) // 2, center=True)
+    row2 = pscad.row(pad, m.pitch, m.n // 2, center=True)
+    if not m.offset:
+        row2 = pscad.left(m.pitch / 2) + row2
+    all = (
+	(pscad.pad(itertools.count(1, 2), m.clearance, m.mask) + row1),
+	(pscad.pad(itertools.count(2, 2), m.clearance, m.mask) + pscad.back() + row2)
     )
 
-    silk = pscad.silk(m.silk) + (
-        patterns.corners((m.n_x * m.pitch, n_y * m.pitch), m.pitch / 4, center=True)
-    )
-
-    return all, silk
-
+    return pscad.nopaste() + all

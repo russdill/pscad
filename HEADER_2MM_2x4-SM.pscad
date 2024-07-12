@@ -1,0 +1,10 @@
+include header-sm.inc
+
+name		HEADER_2MM_2x4-SM
+n		8
+pad_l		2.75
+pad_w		0.90
+width		4.25
+pitch		2.00
+body_x		8.2
+body_y		4.0

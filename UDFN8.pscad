@@ -1,0 +1,16 @@
+module sop
+part with_thermal_pad
+
+name		UDFN8
+pad_w		0.30
+pad_l		0.45
+pitch		0.50
+n		8
+width		1.70
+thermal_x	1.65
+thermal_y	0.75
+indent		0.20
+body_x		2.00
+body_y		2.00
+paste_fraction	0.35
+paste_max	1.5
